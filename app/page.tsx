@@ -11,13 +11,20 @@ export default function Home() {
     setColour(event.target.value)
   }
 
+  const formAction = async (formData: FormData) => {
+    let pickerInput = formData.get("picker-input")
+    console.log(pickerInput);
+  }
+
   return (
     <div className="page-content">
       <h1>Colour Guesser 🎨</h1>
-      <div className="colour-picker">
-        <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
-      </div>
-      {/* <input type="submit">Submit</input> */}
+      <form action={formAction}>
+        <div className="colour-picker">
+          <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
+        </div>
+        <input type="submit"></input>
+      </form>
     </div>
   );
 }
