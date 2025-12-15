@@ -7,14 +7,20 @@ import colourMap from './colours/html_colour_map.json';
 
 
 export default function Home() {
-  const [colour, setColour] = useState("#ffffffff")
-  const [targetColour, setTargetColour] = useState(() => getRandomColour(colourMap))
+  const [colour, setColour] = useState("#ffffffff");
+  const [targetColour, setTargetColour] = useState(() => getRandomColour(colourMap));
+
+  function splitCamelCase(text: string): string {
+    let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+    return splitWords.join(" ")
+  }
 
   function getRandomColour(colourMap: Record<string, string>) {
     const keys = Object.keys(colourMap);
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
-    return { name: randomKey, value: colourMap[randomKey] };
+    return { name: splitCamelCase(randomKey), value: colourMap[randomKey] };
   }
+
 
   function handleColourPicker(event: React.ChangeEvent<HTMLInputElement>) {
     setColour(event.target.value)
