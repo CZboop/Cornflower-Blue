@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import colourMap from './colours/html_colour_map.json';
 
-// console.log(colourMap);
-
 
 export default function Home() {
   const [colour, setColour] = useState("#ffffffff");
@@ -26,12 +24,7 @@ export default function Home() {
 
 
   function handleColourPicker(event: React.ChangeEvent<HTMLInputElement>) {
-    // TODO: this needs to be elsewhere to only update on submit!
     setColour(event.target.value)
-    let colourEval = evaluateColours();
-    setColourEvalR(colourEval.r);
-    setColourEvalG(colourEval.g);
-    setColourEvalB(colourEval.b);
   }
 
   function hexToRgb(hex: string) {
@@ -71,7 +64,10 @@ export default function Home() {
   const formAction = async (formData: FormData) => {
     let pickerInput = formData.get("picker-input")
     console.log(pickerInput);
-    // setColourEval(() => evaluateColours().toString());
+    let colourEval = evaluateColours();
+    setColourEvalR(colourEval.r);
+    setColourEvalG(colourEval.g);
+    setColourEvalB(colourEval.b);
   }
 
   return (
