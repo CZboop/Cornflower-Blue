@@ -9,6 +9,9 @@ import colourMap from './colours/html_colour_map.json';
 export default function Home() {
   const [colour, setColour] = useState("#ffffffff");
   const [targetColour, setTargetColour] = useState(() => getRandomColour(colourMap));
+  const [colourEvalR, setColourEvalR] = useState("");
+  const [colourEvalG, setColourEvalG] = useState("");
+  const [colourEvalB, setColourEvalB] = useState("");
 
   function splitCamelCase(text: string): string {
     let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
@@ -23,12 +26,52 @@ export default function Home() {
 
 
   function handleColourPicker(event: React.ChangeEvent<HTMLInputElement>) {
+    // TODO: this needs to be elsewhere to only update on submit!
     setColour(event.target.value)
+    let colourEval = evaluateColours();
+    setColourEvalR(colourEval.r);
+    setColourEvalG(colourEval.g);
+    setColourEvalB(colourEval.b);
+  }
+
+  function hexToRgb(hex: string) {
+    // slice if alpha, will have two extra digits
+    hex = hex.slice(0,7);
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (!result) {
+      throw new Error(`Invalid hex colour: ${hex}, could not convert to RGB`);
+    }
+    return {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    };
+  }
+
+  function evaluateColours(){
+    // get colour differences in RGB and show
+    try {
+      let targetColourRGB = hexToRgb(targetColour.value);
+      let pickedColourRGB = hexToRgb(colour);
+
+      let colourDiffR = Math.abs(targetColourRGB.r - pickedColourRGB.r)
+      let colourDiffG = Math.abs(targetColourRGB.g - pickedColourRGB.g)
+      let colourDiffB = Math.abs(targetColourRGB.b - pickedColourRGB.b)
+
+      return {
+        r: colourDiffR,
+        g: colourDiffG,
+        b: colourDiffB
+        };
+    } catch (e: any) {
+      console.error(e.message);
+    }
   }
 
   const formAction = async (formData: FormData) => {
     let pickerInput = formData.get("picker-input")
     console.log(pickerInput);
+    // setColourEval(() => evaluateColours().toString());
   }
 
   return (
@@ -42,6 +85,9 @@ export default function Home() {
           <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
         </div>
         <input type="submit"></input>
+        <h2>{colourEvalR}</h2>
+        <h2>{colourEvalG}</h2>
+        <h2>{colourEvalB}</h2>
       </form>
     </div>
   );
