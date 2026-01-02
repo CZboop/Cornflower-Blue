@@ -63,13 +63,12 @@ export default function Home() {
     }
   }
 
-  function getColourDiffClass(guess: string, target: string) {
-    const diff = Math.abs(parseInt(guess) - parseInt(target));
+  function getColourDiffClass(guessDiff: number) {
     let className;
-    if (diff <= bounds.green) {
+    if (guessDiff <= bounds.green) {
       className = "bg-green-diff";
     }
-    else if (diff <= bounds.orange) {
+    else if (guessDiff <= bounds.orange) {
       className = "bg-orange-diff";
     }
     else {
@@ -102,11 +101,12 @@ export default function Home() {
             </div>
             <input type="submit"></input>
             {/* TODO: remove redundancies */}
+            {/* TODO: show the raw rgb values not diff? or keep consistent at least */}
             {pastEvals.length !== 0 ?
               pastEvals.map((guess) => (<div className="colour-diffs">
-                <div className={`colour-label ${getColourDiffClass(guess.r, targetColourRGB.r)}`}><h2 >R: {guess.r}</h2></div>
-                <div className={`colour-label ${getColourDiffClass(guess.g, targetColourRGB.g)}`}><h2 >G: {guess.g}</h2></div>
-                <div className={`colour-label ${getColourDiffClass(guess.b, targetColourRGB.b)}`}><h2 >B: {guess.b}</h2></div>
+                <div className={`colour-label ${getColourDiffClass(parseInt(guess.r))}`}><h2 >R: {guess.r}</h2></div>
+                <div className={`colour-label ${getColourDiffClass(parseInt(guess.g))}`}><h2 >G: {guess.g}</h2></div>
+                <div className={`colour-label ${getColourDiffClass(parseInt(guess.b))}`}><h2 >B: {guess.b}</h2></div>
               </div>))
               :
               (<></>)
