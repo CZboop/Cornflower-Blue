@@ -7,9 +7,7 @@ import colourMap from './colours/html_colour_map.json';
 export default function Home() {
   const [colour, setColour] = useState("#ffffff");
   const [targetColour, setTargetColour] = useState(() => getRandomColour(colourMap));
-  const [colourEvalR, setColourEvalR] = useState("");
-  const [colourEvalG, setColourEvalG] = useState("");
-  const [colourEvalB, setColourEvalB] = useState("");
+  const [pastEvals, setPastEvals] = useState([]);
 
   function splitCamelCase(text: string): string {
     let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
@@ -65,9 +63,7 @@ export default function Home() {
     let pickerInput = formData.get("picker-input")
     console.log(pickerInput);
     let colourEval = evaluateColours();
-    setColourEvalR(colourEval.r);
-    setColourEvalG(colourEval.g);
-    setColourEvalB(colourEval.b);
+    setPastEvals([...pastEvals, { "r": colourEval.r, "g": colourEval.g, "b": colourEval.b }]);
   }
 
   return (
@@ -81,14 +77,15 @@ export default function Home() {
           <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
         </div>
         <input type="submit"></input>
-        {/* TODO: stack past guesses? */}
         {/* TODO: define how close to be correct, orange, red? test with some colours and see if feels close enough */}
-        {colourEvalR !== "" ?
-          (<div className="colour-diffs">
-            <h2>R: {colourEvalR}</h2>
-            <h2>G: {colourEvalG}</h2>
-            <h2>B: {colourEvalB}</h2>
-          </div>) :
+        {/* TODO: max guesses */}
+        {pastEvals.length !== 0 ?
+          pastEvals.map((guess) => (<div className="colour-diffs">
+            <h2 className="colour-label">R: {guess.r}</h2>
+            <h2 className="colour-label">G: {guess.g}</h2>
+            <h2 className="colour-label">B: {guess.b}</h2>
+          </div>))
+          :
           (<></>)
         }
       </form>
