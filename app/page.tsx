@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import colourMap from './colours/html_colour_map.json';
 
 
 export default function Home() {
   const [colour, setColour] = useState("#ffffff");
   const [targetColourRGB, setTargetColourRGB] = useState({});
-  const [targetColour, setTargetColour] = useState(() => getRandomColour(colourMap));
+  const [targetColour, setTargetColour] = useState(null);
   const [pastEvals, setPastEvals] = useState([]);
   const [numGuesses, setNumGuesses] = useState(0);
   const [bounds, setBounds] = useState({ "green": 25, "orange": 75 })
+
+  useEffect(() => {
+    const randomColour = getRandomColour(colourMap);
+    setTargetColour(randomColour);
+  }, [])
 
   function splitCamelCase(text: string): string {
     let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
@@ -89,12 +94,16 @@ export default function Home() {
     <div className="page-content">
       <h1>Colour Guesser 🎨</h1>
       <h3>You have {5 - numGuesses} guesses left.</h3>
-      {/* TODO: useeffect or something to prevent this changing on load */}
       {numGuesses < 5 ?
         // TODO: handle if get it right on final attempt! or generally breaking out if correct...
         <>
           <h3>Select the colour with this name from the picker:</h3>
-          <h2>{targetColour.name}</h2>
+          {
+            targetColour ?
+              <h2>{targetColour.name}</h2> :
+              <></>
+          }
+
           <form action={formAction}>
             <div className="colour-picker">
               <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
