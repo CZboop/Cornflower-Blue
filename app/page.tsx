@@ -3,10 +3,6 @@
 import { useState } from 'react';
 import colourMap from './colours/html_colour_map.json';
 
-// TODO:
-// - label channel when show difference in r/g/b
-// - max number of guesses
-
 
 export default function Home() {
   const [colour, setColour] = useState("#ffffff");
@@ -85,14 +81,16 @@ export default function Home() {
           <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
         </div>
         <input type="submit"></input>
-        {/* TODO: don't show until submitted */}
         {/* TODO: stack past guesses? */}
         {/* TODO: define how close to be correct, orange, red? test with some colours and see if feels close enough */}
-        <div className="colour-diffs">
-          <h2>R: {colourEvalR}</h2>
-          <h2>G: {colourEvalG}</h2>
-          <h2>B: {colourEvalB}</h2>
-        </div>
+        {colourEvalR !== "" ?
+          (<div className="colour-diffs">
+            <h2>R: {colourEvalR}</h2>
+            <h2>G: {colourEvalG}</h2>
+            <h2>B: {colourEvalB}</h2>
+          </div>) :
+          (<></>)
+        }
       </form>
     </div>
   );
