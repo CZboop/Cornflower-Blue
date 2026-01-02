@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import colourMap from './colours/html_colour_map.json';
+import Confetti from 'react-confetti';
 
 
 export default function Home() {
@@ -10,7 +11,8 @@ export default function Home() {
   const [targetColour, setTargetColour] = useState(null);
   const [pastEvals, setPastEvals] = useState([]);
   const [numGuesses, setNumGuesses] = useState(0);
-  const [bounds, setBounds] = useState({ "green": 25, "orange": 75 })
+  const [bounds, setBounds] = useState({ "green": 25, "orange": 75 });
+  const [guessedCorrect, setGuessedCorrect] = useState(false);
 
   useEffect(() => {
     const randomColour = getRandomColour(colourMap);
@@ -58,6 +60,10 @@ export default function Home() {
       let colourDiffG = Math.abs(targetColourRGB.g - pickedColourRGB.g)
       let colourDiffB = Math.abs(targetColourRGB.b - pickedColourRGB.b)
 
+      if ([colourDiffR, colourDiffG, colourDiffB].every((diff) => { return diff <= bounds.green })) {
+        setGuessedCorrect(true);
+      }
+
       return {
         r: colourDiffR,
         g: colourDiffG,
@@ -93,10 +99,30 @@ export default function Home() {
   return (
     <div className="page-content">
       <h1>Colour Guesser 🎨</h1>
-      <h3>You have {5 - numGuesses} guesses left.</h3>
+      {
+        guessedCorrect ?
+          <>
+            <Confetti />
+            <h2>Correct!</h2>
+            <p>The exact colour for "{targetColour.name}" was:</p>
+            <>
+              <div className="colour-diffs">
+                <h2 className="colour-label">R: {targetColourRGB.r}</h2>
+                <h2 className="colour-label">G: {targetColourRGB.g}</h2>
+                <h2 className="colour-label">B: {targetColourRGB.b}</h2>
+              </div>
+              <div className="colour-picker">
+                <input type="color" id="picker-input" name="picker-input" value={targetColour.value} onChange={handleColourPicker} disabled={true} />
+              </div>
+            </>
+          </>
+          :
+          <>
+          </>
+      }
       {numGuesses < 5 ?
-        // TODO: handle if get it right on final attempt! or generally breaking out if correct...
         <>
+          <h3>You have {5 - numGuesses} guesses left.</h3>
           <h3>Select the colour with this name from the picker:</h3>
           {
             targetColour ?
@@ -112,7 +138,7 @@ export default function Home() {
             {/* TODO: remove redundancies */}
             {/* TODO: show the raw rgb values not diff? or keep consistent at least */}
             {pastEvals.length !== 0 ?
-              pastEvals.map((guess) => (<div className="colour-diffs">
+              pastEvals.map((guess, index) => (<div key={`guess-${index}`} className="colour-diffs">
                 <div className={`colour-label ${getColourDiffClass(parseInt(guess.r))}`}><h2 >R: {guess.r}</h2></div>
                 <div className={`colour-label ${getColourDiffClass(parseInt(guess.g))}`}><h2 >G: {guess.g}</h2></div>
                 <div className={`colour-label ${getColourDiffClass(parseInt(guess.b))}`}><h2 >B: {guess.b}</h2></div>
@@ -122,22 +148,25 @@ export default function Home() {
             }
           </form>
         </>
-        :
-        <>
-          <p>You ran out of guesses.</p>
-          <p>The correct colour for "{targetColour.name}" was:</p>
+        : !guessedCorrect ?
           <>
-            <div className="colour-diffs">
-              <h2 className="colour-label">R: {targetColourRGB.r}</h2>
-              <h2 className="colour-label">G: {targetColourRGB.g}</h2>
-              <h2 className="colour-label">B: {targetColourRGB.b}</h2>
-            </div>
-            <div className="colour-picker">
-              <input type="color" id="picker-input" name="picker-input" value={targetColour.value} onChange={handleColourPicker} disabled={true} />
-            </div>
+            <p>You ran out of guesses.</p>
+            <p>The correct colour for "{targetColour.name}" was:</p>
+            <>
+              <div className="colour-diffs">
+                <h2 className="colour-label">R: {targetColourRGB.r}</h2>
+                <h2 className="colour-label">G: {targetColourRGB.g}</h2>
+                <h2 className="colour-label">B: {targetColourRGB.b}</h2>
+              </div>
+              <div className="colour-picker">
+                <input type="color" id="picker-input" name="picker-input" value={targetColour.value} onChange={handleColourPicker} disabled={true} />
+              </div>
+            </>
           </>
-        </>
+          :
+          <></>
       }
     </div>
+
   );
 }
