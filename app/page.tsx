@@ -10,6 +10,7 @@ export default function Home() {
   const [targetColour, setTargetColour] = useState(() => getRandomColour(colourMap));
   const [pastEvals, setPastEvals] = useState([]);
   const [numGuesses, setNumGuesses] = useState(0);
+  const [bounds, setBounds] = useState({ "green": 25, "orange": 75 })
 
   function splitCamelCase(text: string): string {
     let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
@@ -62,6 +63,21 @@ export default function Home() {
     }
   }
 
+  function getColourDiffClass(guess: string, target: string) {
+    const diff = Math.abs(parseInt(guess) - parseInt(target));
+    let className;
+    if (diff <= bounds.green) {
+      className = "bg-green-diff";
+    }
+    else if (diff <= bounds.orange) {
+      className = "bg-orange-diff";
+    }
+    else {
+      className = "bg-red-diff";
+    }
+    return className;
+  }
+
   const formAction = async (formData: FormData) => {
     let pickerInput = formData.get("picker-input")
     console.log(pickerInput);
@@ -85,12 +101,12 @@ export default function Home() {
               <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
             </div>
             <input type="submit"></input>
-            {/* TODO: define how close to be correct, orange, red? test with some colours and see if feels close enough */}
+            {/* TODO: remove redundancies */}
             {pastEvals.length !== 0 ?
               pastEvals.map((guess) => (<div className="colour-diffs">
-                <h2 className="colour-label">R: {guess.r}</h2>
-                <h2 className="colour-label">G: {guess.g}</h2>
-                <h2 className="colour-label">B: {guess.b}</h2>
+                <div className={`colour-label ${getColourDiffClass(guess.r, targetColourRGB.r)}`}><h2 >R: {guess.r}</h2></div>
+                <div className={`colour-label ${getColourDiffClass(guess.g, targetColourRGB.g)}`}><h2 >G: {guess.g}</h2></div>
+                <div className={`colour-label ${getColourDiffClass(guess.b, targetColourRGB.b)}`}><h2 >B: {guess.b}</h2></div>
               </div>))
               :
               (<></>)
@@ -108,7 +124,7 @@ export default function Home() {
               <h2 className="colour-label">B: {targetColourRGB.b}</h2>
             </div>
             <div className="colour-picker">
-              <input type="color" id="picker-input" name="picker-input" value={targetColour.value} onChange={handleColourPicker} disabled={true}/>
+              <input type="color" id="picker-input" name="picker-input" value={targetColour.value} onChange={handleColourPicker} disabled={true} />
             </div>
           </>
         </>

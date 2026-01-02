@@ -31,4 +31,19 @@ body {
 
 .colour-label {
   margin-right: 1.5em;
+  border-radius: 10%;
+  padding: 0.25em;
+  margin-top: 1em;
+}
+
+.bg-red-diff {
+  background-color: red;
+}
+
+.bg-orange-diff {
+  background-color: orange;
+}
+
+.bg-green-diff {
+  background-color: green;
 }
