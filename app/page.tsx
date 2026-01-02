@@ -3,9 +3,13 @@
 import { useState } from 'react';
 import colourMap from './colours/html_colour_map.json';
 
+// TODO:
+// - label channel when show difference in r/g/b
+// - max number of guesses
+
 
 export default function Home() {
-  const [colour, setColour] = useState("#ffffffff");
+  const [colour, setColour] = useState("#ffffff");
   const [targetColour, setTargetColour] = useState(() => getRandomColour(colourMap));
   const [colourEvalR, setColourEvalR] = useState("");
   const [colourEvalG, setColourEvalG] = useState("");
@@ -29,7 +33,7 @@ export default function Home() {
 
   function hexToRgb(hex: string) {
     // slice if alpha, will have two extra digits
-    hex = hex.slice(0,7);
+    hex = hex.slice(0, 7);
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     if (!result) {
       throw new Error(`Invalid hex colour: ${hex}, could not convert to RGB`);
@@ -41,7 +45,7 @@ export default function Home() {
     };
   }
 
-  function evaluateColours(){
+  function evaluateColours() {
     // get colour differences in RGB and show
     try {
       let targetColourRGB = hexToRgb(targetColour.value);
@@ -55,7 +59,7 @@ export default function Home() {
         r: colourDiffR,
         g: colourDiffG,
         b: colourDiffB
-        };
+      };
     } catch (e: any) {
       console.error(e.message);
     }
@@ -81,9 +85,14 @@ export default function Home() {
           <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
         </div>
         <input type="submit"></input>
-        <h2>{colourEvalR}</h2>
-        <h2>{colourEvalG}</h2>
-        <h2>{colourEvalB}</h2>
+        {/* TODO: don't show until submitted */}
+        {/* TODO: stack past guesses? */}
+        {/* TODO: define how close to be correct, orange, red? test with some colours and see if feels close enough */}
+        <div className="colour-diffs">
+          <h2>R: {colourEvalR}</h2>
+          <h2>G: {colourEvalG}</h2>
+          <h2>B: {colourEvalB}</h2>
+        </div>
       </form>
     </div>
   );
