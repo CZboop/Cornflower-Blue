@@ -6,8 +6,10 @@ import colourMap from './colours/html_colour_map.json';
 
 export default function Home() {
   const [colour, setColour] = useState("#ffffff");
+  const [targetColourRGB, setTargetColourRGB] = useState({});
   const [targetColour, setTargetColour] = useState(() => getRandomColour(colourMap));
   const [pastEvals, setPastEvals] = useState([]);
+  const [numGuesses, setNumGuesses] = useState(0);
 
   function splitCamelCase(text: string): string {
     let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
@@ -17,7 +19,9 @@ export default function Home() {
   function getRandomColour(colourMap: Record<string, string>) {
     const keys = Object.keys(colourMap);
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
-    return { name: splitCamelCase(randomKey), value: colourMap[randomKey] };
+    const randomColour = colourMap[randomKey];
+    setTargetColourRGB(hexToRgb(randomColour));
+    return { name: splitCamelCase(randomKey), value: randomColour };
   }
 
 
@@ -42,7 +46,6 @@ export default function Home() {
   function evaluateColours() {
     // get colour differences in RGB and show
     try {
-      let targetColourRGB = hexToRgb(targetColour.value);
       let pickedColourRGB = hexToRgb(colour);
 
       let colourDiffR = Math.abs(targetColourRGB.r - pickedColourRGB.r)
@@ -64,31 +67,52 @@ export default function Home() {
     console.log(pickerInput);
     let colourEval = evaluateColours();
     setPastEvals([...pastEvals, { "r": colourEval.r, "g": colourEval.g, "b": colourEval.b }]);
+    setNumGuesses(numGuesses + 1);
   }
 
   return (
     <div className="page-content">
       <h1>Colour Guesser 🎨</h1>
-      <h3>Select the colour with this name from the picker:</h3>
-      <h2>{targetColour.name}</h2>
+      <h3>You have {5 - numGuesses} guesses left.</h3>
       {/* TODO: useeffect or something to prevent this changing on load */}
-      <form action={formAction}>
-        <div className="colour-picker">
-          <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
-        </div>
-        <input type="submit"></input>
-        {/* TODO: define how close to be correct, orange, red? test with some colours and see if feels close enough */}
-        {/* TODO: max guesses */}
-        {pastEvals.length !== 0 ?
-          pastEvals.map((guess) => (<div className="colour-diffs">
-            <h2 className="colour-label">R: {guess.r}</h2>
-            <h2 className="colour-label">G: {guess.g}</h2>
-            <h2 className="colour-label">B: {guess.b}</h2>
-          </div>))
-          :
-          (<></>)
-        }
-      </form>
+      {numGuesses < 5 ?
+        // TODO: handle if get it right on final attempt! or generally breaking out if correct...
+        <>
+          <h3>Select the colour with this name from the picker:</h3>
+          <h2>{targetColour.name}</h2>
+          <form action={formAction}>
+            <div className="colour-picker">
+              <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
+            </div>
+            <input type="submit"></input>
+            {/* TODO: define how close to be correct, orange, red? test with some colours and see if feels close enough */}
+            {pastEvals.length !== 0 ?
+              pastEvals.map((guess) => (<div className="colour-diffs">
+                <h2 className="colour-label">R: {guess.r}</h2>
+                <h2 className="colour-label">G: {guess.g}</h2>
+                <h2 className="colour-label">B: {guess.b}</h2>
+              </div>))
+              :
+              (<></>)
+            }
+          </form>
+        </>
+        :
+        <>
+          <p>You ran out of guesses.</p>
+          <p>The correct colour for "{targetColour.name}" was:</p>
+          <>
+            <div className="colour-diffs">
+              <h2 className="colour-label">R: {targetColourRGB.r}</h2>
+              <h2 className="colour-label">G: {targetColourRGB.g}</h2>
+              <h2 className="colour-label">B: {targetColourRGB.b}</h2>
+            </div>
+            <div className="colour-picker">
+              <input type="color" id="picker-input" name="picker-input" value={targetColour.value} onChange={handleColourPicker} disabled={true}/>
+            </div>
+          </>
+        </>
+      }
     </div>
   );
 }
