@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import colourMap from './colours/html_colour_map.json';
-import Confetti from 'react-confetti';
+import GameScreen from './components/GameScreen';
+import WinScreen from './components/WinScreen';
+import LostScreen from './components/LostScreen';
 
 
 export default function Home() {
@@ -101,21 +103,7 @@ export default function Home() {
       <h1>Colour Guesser 🎨</h1>
       {
         guessedCorrect ?
-          <>
-            <Confetti />
-            <h2>Correct!</h2>
-            <p>The exact colour for "{targetColour.name}" was:</p>
-            <>
-              <div className="colour-diffs">
-                <h2 className="colour-label">R: {targetColourRGB.r}</h2>
-                <h2 className="colour-label">G: {targetColourRGB.g}</h2>
-                <h2 className="colour-label">B: {targetColourRGB.b}</h2>
-              </div>
-              <div className="colour-picker">
-                <input type="color" id="picker-input" name="picker-input" value={targetColour.value} onChange={handleColourPicker} disabled={true} />
-              </div>
-            </>
-          </>
+          <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} handleColourPicker={handleColourPicker} />
           :
           <>
           </>
@@ -135,8 +123,6 @@ export default function Home() {
               <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
             </div>
             <input type="submit"></input>
-            {/* TODO: remove redundancies */}
-            {/* TODO: show the raw rgb values not diff? or keep consistent at least */}
             {pastEvals.length !== 0 ?
               pastEvals.map((guess, index) => (<div key={`guess-${index}`} className="colour-diffs">
                 <div className={`colour-label ${getColourDiffClass(parseInt(guess.r))}`}><h2 >R: {guess.r}</h2></div>
