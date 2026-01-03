@@ -17,7 +17,8 @@ type Props = {
 export default function GameScreen({ numGuesses, targetColour, formAction, colour, handleColourPicker, pastEvals, getColourDiffClass }: Props) {
 
     return (
-        <>
+        <div className="page-content">
+            <h1>Colour Guesser 🎨</h1>
             <h3>You have {5 - numGuesses} guesses left.</h3>
             <h3>Select the colour with this name from the picker:</h3>
             {
@@ -41,6 +42,6 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                     (<></>)
                 }
             </form>
-        </>
+        </div>
     )
 }

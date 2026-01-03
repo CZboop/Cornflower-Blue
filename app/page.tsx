@@ -99,24 +99,16 @@ export default function Home() {
     setNumGuesses(numGuesses + 1);
   }
 
-  return (
-    <div className="page-content">
-      <h1>Colour Guesser 🎨</h1>
-      {
-        guessedCorrect ?
-          <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} handleColourPicker={handleColourPicker} />
-          :
-          <>
-          </>
-      }
-      {numGuesses < 5 ?
-        <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} handleColourPicker={handleColourPicker} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} />
-        : !guessedCorrect ?
-          <LoseScreen targetColour={targetColour} targetColourRGB={targetColourRGB} />
-          :
-          <></>
-      }
-    </div>
+  // early returns to handle screen rendering w multiple conditions
+  if (guessedCorrect) {
+    return <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} handleColourPicker={handleColourPicker} />
+  }
 
+  if (numGuesses < 5) {
+    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} handleColourPicker={handleColourPicker} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} />
+  }
+
+  return (
+    <LoseScreen targetColour={targetColour} targetColourRGB={targetColourRGB} />
   );
 }

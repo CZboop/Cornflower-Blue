@@ -6,7 +6,7 @@ type Props = {
 
 export default function CorrectColour({ targetColour, targetColourRGB }: Props) {
     return (
-        <>
+        <div className="page-content">
             <div className="colour-diffs">
                 <h2 className="colour-label">R: {targetColourRGB.r}</h2>
                 <h2 className="colour-label">G: {targetColourRGB.g}</h2>
@@ -15,6 +15,6 @@ export default function CorrectColour({ targetColour, targetColourRGB }: Props) 
             <div className="colour-picker">
                 <input type="color" id="picker-input" name="picker-input" value={targetColour.value} disabled={true} />
             </div>
-        </>
+        </div>
     )
 }
