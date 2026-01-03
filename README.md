@@ -1,3 +1,3 @@
-# NextJS Colour Game 🎨
+# Lemon Chiffon - NextJS Colour Game 🎨
 
-Game where you guess colours based on their name, made using Next JS
+Game where you must guess a colour based on its name, made using Next JS

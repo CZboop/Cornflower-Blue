@@ -18,13 +18,33 @@ export default function Home() {
   const [guessedCorrect, setGuessedCorrect] = useState(false);
 
   useEffect(() => {
-    const randomColour = getRandomColour(colourMap);
+    // const randomColour = getRandomColour(colourMap); // potentially have two modes, this one random, but currently daily
+    const randomColour = getDailyColour(colourMap);
     setTargetColour(randomColour);
   }, [])
 
   function splitCamelCase(text: string): string {
     let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
     return splitWords.join(" ")
+  }
+
+  function getDailyColour(colourMap: Record<string, string>) {
+    const today = new Date().toISOString().split('T')[0] // format = "2026-01-03"
+
+    // hash date string to get consistent random index
+    let hash = 0
+    for (let i = 0; i < today.length; i++) {
+      hash = (hash * 31) + today.charCodeAt(i)
+      hash = Math.trunc(hash)
+    }
+
+    const keys = Object.keys(colourMap)
+    const index = Math.abs(hash) % keys.length
+    const hashKey = keys[index]
+
+    const randomColour = colourMap[hashKey];
+    setTargetColourRGB(hexToRgb(randomColour));
+    return { name: splitCamelCase(hashKey), value: randomColour };
   }
 
   function getRandomColour(colourMap: Record<string, string>) {
