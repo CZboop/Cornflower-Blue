@@ -5,6 +5,7 @@ import colourMap from './colours/html_colour_map.json';
 import GameScreen from './components/GameScreen';
 import WinScreen from './components/WinScreen';
 import LostScreen from './components/LostScreen';
+import LoseScreen from './components/LoseScreen';
 
 
 export default function Home() {
@@ -135,20 +136,7 @@ export default function Home() {
           </form>
         </>
         : !guessedCorrect ?
-          <>
-            <p>You ran out of guesses.</p>
-            <p>The correct colour for "{targetColour.name}" was:</p>
-            <>
-              <div className="colour-diffs">
-                <h2 className="colour-label">R: {targetColourRGB.r}</h2>
-                <h2 className="colour-label">G: {targetColourRGB.g}</h2>
-                <h2 className="colour-label">B: {targetColourRGB.b}</h2>
-              </div>
-              <div className="colour-picker">
-                <input type="color" id="picker-input" name="picker-input" value={targetColour.value} onChange={handleColourPicker} disabled={true} />
-              </div>
-            </>
-          </>
+          <LoseScreen targetColour={targetColour} targetColourRGB={targetColourRGB} />
           :
           <></>
       }
