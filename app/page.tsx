@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import colourMap from './colours/html_colour_map.json';
-import GameScreen from './components/GameScreen';
-import WinScreen from './components/WinScreen';
+import GameScreen from './components/screens/GameScreen';
+import WinScreen from './components/screens/WinScreen';
 import LostScreen from './components/LostScreen';
-import LoseScreen from './components/LoseScreen';
+import LoseScreen from './components/screens/LoseScreen';
 
 
 export default function Home() {

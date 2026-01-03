@@ -1,3 +1,5 @@
+import Title from "../shared/Title"
+
 type Colour = {
     r: string
     g: string
@@ -18,14 +20,14 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
 
     return (
         <div className="page-content">
-            <h1>Colour Guesser 🎨</h1>
-            <h3>You have {5 - numGuesses} guesses left.</h3>
+            <Title />
             <h3>Select the colour with this name from the picker:</h3>
             {
                 targetColour ?
                     <h2>{targetColour.name}</h2> :
                     <></>
             }
+            <h3>You have {5 - numGuesses} guesses left.</h3>
 
             <form action={formAction}>
                 <div className="colour-picker">

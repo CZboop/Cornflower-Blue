@@ -1,5 +1,6 @@
 import Confetti from 'react-confetti';
-import CorrectColour from './CorrectColour';
+import CorrectColour from '../shared/CorrectColour';
+import Title from '../shared/Title';
 
 type Props = {
     targetColour: { name: string, value: string }
@@ -10,7 +11,7 @@ export default function WinScreen({ targetColour, targetColourRGB }: Props) {
 
     return (
         <div className="page-content">
-            <h1>Colour Guesser 🎨</h1>
+            <Title />
             <Confetti />
             <h2>Correct!</h2>
             <p>The exact colour for "{targetColour.name}" was:</p>

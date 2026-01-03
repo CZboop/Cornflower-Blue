@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Oi&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oi&family=Rubik+Dirt&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0010c0;
 }
 
 @theme inline {
@@ -14,8 +16,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #2d00c0;
+    --foreground: #9bfc00;
   }
 }
 
@@ -23,6 +25,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  padding: 2.5em;
+}
+
+h1 {
+  font-family: "Rubik Dirt", Helvetica, sans-serif;
+  font-size: xx-large;
+  padding-bottom: 1em;
+  text-decoration: underline wavy 2px;
+  text-underline-offset: 0.5em;
 }
 
 .colour-diffs {
@@ -47,3 +58,9 @@ body {
 .bg-green-diff {
   background-color: green;
 }
+
+/* input[type=submit] {
+  background-color: rgb(0, 60, 49);
+  border-radius: 25%;
+  padding: 0.5em;
+} */
