@@ -24,7 +24,7 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
             <h3>Select the colour with this name from the picker:</h3>
             {
                 targetColour ?
-                    <h2>{targetColour.name}</h2> :
+                    <h2 className="target-colour">{targetColour.name}</h2> :
                     <></>
             }
             <h3>You have {5 - numGuesses} guesses left.</h3>
@@ -33,13 +33,16 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                 <div className="colour-picker">
                     <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
                 </div>
-                <input type="submit"></input>
+                <input type="submit" className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"></input>
                 {pastEvals.length !== 0 ?
-                    pastEvals.map((guess, index) => (<div key={`guess-${index}`} className="colour-diffs">
+                    <>
+                    <h3 className="past-guesses">Past Guesses:</h3>
+                    {pastEvals.map((guess, index) => (<div key={`guess-${index}`} className="colour-diffs">
                         <div className={`colour-label ${getColourDiffClass(parseInt(guess.r))}`}><h2 >R: {guess.r}</h2></div>
                         <div className={`colour-label ${getColourDiffClass(parseInt(guess.g))}`}><h2 >G: {guess.g}</h2></div>
                         <div className={`colour-label ${getColourDiffClass(parseInt(guess.b))}`}><h2 >B: {guess.b}</h2></div>
-                    </div>))
+                    </div>))}
+                    </>
                     :
                     (<></>)
                 }
