@@ -28,21 +28,23 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                     <h2 className="target-colour">{targetColour.name}</h2> :
                     <></>
             }
-            <h3>You have <b>{5 - numGuesses}</b> guesses left - {Array(5).fill(null).map((_, i) => (<span key={i}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
 
             <form action={formAction}>
                 <div className="colour-picker">
-                    <PhotoshopPicker key={numGuesses} color={colour} onChange={(c) => setColour(c.hex)}/>
+                    <PhotoshopPicker key={numGuesses} color={colour} onChange={(c) => setColour(c.hex)} />
                 </div>
-                <input type="submit" className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"></input>
+                <input type="submit"></input>
+                <h3>You have <b>{5 - numGuesses}</b> guesses left - {Array(5).fill(null).map((_, i) => (<span key={i}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
                 {pastEvals.length > 0 ?
                     <>
-                    <h3 className="past-guesses">Past Guesses:</h3>
-                    {pastEvals.map((guess, index) => (<div key={`guess-${index}`} className="colour-diffs">
-                        <div className={`colour-label ${getColourDiffClass(parseInt(guess.r))}`}><h2 >R: {guess.r}</h2></div>
-                        <div className={`colour-label ${getColourDiffClass(parseInt(guess.g))}`}><h2 >G: {guess.g}</h2></div>
-                        <div className={`colour-label ${getColourDiffClass(parseInt(guess.b))}`}><h2 >B: {guess.b}</h2></div>
-                    </div>))}
+                        <h3 className="past-guesses">Past Guesses:</h3>
+                        {pastEvals.map((guess, index) => (
+                            <div key={`guess-${index}`} className="guess-row">
+                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.r))}`}>R: {guess.r}</span>
+                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.g))}`}>G: {guess.g}</span>
+                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.b))}`}>B: {guess.b}</span>
+                            </div>
+                        ))}
                     </>
                     :
                     (<></>)

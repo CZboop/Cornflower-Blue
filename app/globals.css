@@ -3,8 +3,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0010c0;
+  --background: #231835;
+  --foreground: blue;
+  --ps-dark: #535353;
+  --ps-darker: #454545;
+  --ps-darkest: #1e1e1e;
+  --ps-light: #b8b8b8;
+  --ps-accent: #5b9bd5;
+  --ps-border: #3c3c3c;
 }
 
 @theme inline {
@@ -16,7 +22,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #2d00c0;
+    --background: #000327;
     --foreground: #9bfc00;
   }
 }
@@ -24,7 +30,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto Mono", Helvetica, sans-serif;
   padding: 2.5em;
 }
 
@@ -72,8 +78,14 @@ h1 {
 }
 
 input[type=submit] {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  background: var(--ps-light);
+  color: var(--ps-border);
+  border: 1px solid var(--ps-border);
+  padding: 0.5em 1.5em;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  /* transition: background 0.2s; */
 }
 
 input[type=color] {
@@ -91,10 +103,50 @@ input[type=color] {
   text-decoration: underline wavy 2px;
   text-underline-offset: 0.25em;
   padding-bottom: 0.5em;
+  margin-top: 1em;
 }
 
 .colour-picker {
   color: black;
   margin-top: 1em;
   margin-bottom: 0.5em;
+}
+
+.colour-label {
+  text-align: center;
+}
+
+.guess-row {
+  display: grid;
+  grid-template-columns: repeat(3, 11ch);
+  gap: 0.75em;
+  background: rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.5em;
+}
+
+.colour-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4em 0.8em;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.bg-red-diff {
+  background-color: rgb(255, 154, 154);
+  border: 2px solid rgb(200, 100, 100);
+  color: #4a0000;
+}
+
+.bg-orange-diff {
+  background-color: rgb(255, 208, 122);
+  border: 2px solid rgb(200, 160, 80);
+  color: #4a3000;
+}
+
+.bg-green-diff {
+  background-color: rgb(174, 254, 174);
+  border: 2px solid rgb(100, 180, 100);
+  color: #004a00;
 }
