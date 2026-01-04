@@ -28,7 +28,7 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                     <h2 className="target-colour">{targetColour.name}</h2> :
                     <></>
             }
-            <h3>You have {5 - numGuesses} guesses left.</h3>
+            <h3>You have <b>{5 - numGuesses}</b> guesses left - {Array(5).fill(null).map((_, i) => (<span key={i}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
 
             <form action={formAction}>
                 <div className="colour-picker">
