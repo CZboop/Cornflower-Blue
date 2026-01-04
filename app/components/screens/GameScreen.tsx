@@ -1,4 +1,5 @@
-import Title from "../shared/Title"
+import Title from "../shared/Title";
+import { PhotoshopPicker } from 'react-color';
 
 type Colour = {
     r: string
@@ -11,12 +12,12 @@ type Props = {
     targetColour: { name: string, value: string }
     formAction: () => void
     colour: string
-    handleColourPicker: () => void
+    setColour: () => void
     pastEvals: Array<Colour>
     getColourDiffClass: (arg0: number) => string
 }
 
-export default function GameScreen({ numGuesses, targetColour, formAction, colour, handleColourPicker, pastEvals, getColourDiffClass }: Props) {
+export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass }: Props) {
 
     return (
         <div className="page-content">
@@ -31,10 +32,10 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
 
             <form action={formAction}>
                 <div className="colour-picker">
-                    <input type="color" id="picker-input" name="picker-input" value={colour} onChange={handleColourPicker} />
+                    <PhotoshopPicker key={numGuesses} color={colour} onChange={(c) => setColour(c.hex)}/>
                 </div>
                 <input type="submit" className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"></input>
-                {pastEvals.length !== 0 ?
+                {pastEvals.length > 0 ?
                     <>
                     <h3 className="past-guesses">Past Guesses:</h3>
                     {pastEvals.map((guess, index) => (<div key={`guess-${index}`} className="colour-diffs">

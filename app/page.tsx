@@ -56,9 +56,9 @@ export default function Home() {
   }
 
 
-  function handleColourPicker(event: React.ChangeEvent<HTMLInputElement>) {
-    setColour(event.target.value)
-  }
+  // function handleColourPicker(event: React.ChangeEvent<HTMLInputElement>) {
+  //   setColour(event.target.value)
+  // }
 
   function hexToRgb(hex: string) {
     // slice if alpha, will have two extra digits
@@ -121,11 +121,11 @@ export default function Home() {
 
   // early returns to handle screen rendering w multiple conditions
   if (guessedCorrect) {
-    return <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} handleColourPicker={handleColourPicker} />
+    return <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} />
   }
 
   if (numGuesses < 5) {
-    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} handleColourPicker={handleColourPicker} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} />
+    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} />
   }
 
   return (
