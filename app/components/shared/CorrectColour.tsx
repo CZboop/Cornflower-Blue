@@ -1,3 +1,5 @@
+import { PhotoshopPicker } from 'react-color';
+
 type Props = {
     targetColour: { name: string, value: string }
     targetColourRGB: { r: string, g: string, b: string }
@@ -13,7 +15,7 @@ export default function CorrectColour({ targetColour, targetColourRGB }: Props) 
                 <h2 className="colour-label">B: {targetColourRGB.b}</h2>
             </div>
             <div className="colour-picker">
-                <input type="color" id="picker-input" name="picker-input" value={targetColour.value} disabled={true} />
+                <PhotoshopPicker color={targetColour.value} />
             </div>
         </div>
     )
