@@ -15,9 +15,11 @@ type Props = {
     setColour: () => void
     pastEvals: Array<Colour>
     getColourDiffClass: (arg0: number) => string
+    showInfo: boolean
+    setShowInfo: () => void
 }
 
-export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass }: Props) {
+export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass, showInfo, setShowInfo }: Props) {
 
     return (
         <div className="page-content">
@@ -35,9 +37,23 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                 </div>
                 <input type="submit"></input>
                 <h3>You have <b>{5 - numGuesses}</b> guesses left - {Array(5).fill(null).map((_, i) => (<span key={i}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
+
                 {pastEvals.length > 0 ?
                     <>
-                        <h3 className="past-guesses">Past Guesses:</h3>
+                        <h3 className="past-guesses">Past Guesses: <span className="info-icon" onClick={() => setShowInfo(!showInfo)}>ℹ️</span>
+                        </h3>
+
+                        {showInfo && (
+                            <div className="info-box">
+                                <p>Each number shows how far your guess was from the target, across R, G and B channels (0 = perfect match).</p>
+                                <ul>
+                                    <li>🟢 Green: Close (within 25)</li>
+                                    <li>🟠 Orange: Getting there (within 75)</li>
+                                    <li>🔴 Red: Far off (75+)</li>
+                                </ul>
+                                <p>Click the top ℹ️ icon again to close.</p>
+                            </div>
+                        )}
                         {pastEvals.map((guess, index) => (
                             <div key={`guess-${index}`} className="guess-row">
                                 <span className={`colour-label ${getColourDiffClass(parseInt(guess.r))}`}>R: {guess.r}</span>

@@ -16,6 +16,7 @@ export default function Home() {
   const [numGuesses, setNumGuesses] = useState(0);
   const [bounds, setBounds] = useState({ "green": 25, "orange": 75 });
   const [guessedCorrect, setGuessedCorrect] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
     // const randomColour = getRandomColour(colourMap); // potentially have two modes, this one random, but currently daily
@@ -125,7 +126,7 @@ export default function Home() {
   }
 
   if (numGuesses < 5) {
-    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} />
+    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass}  showInfo={showInfo} setShowInfo={setShowInfo} />
   }
 
   return (
