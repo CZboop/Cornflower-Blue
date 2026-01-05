@@ -17,12 +17,24 @@ export default function Home() {
   const [bounds, setBounds] = useState({ "green": 25, "orange": 75 });
   const [guessedCorrect, setGuessedCorrect] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [gameMode, setGameMode] = useState("daily");
 
   useEffect(() => {
-    // const randomColour = getRandomColour(colourMap); // potentially have two modes, this one random, but currently daily
-    const randomColour = getDailyColour(colourMap);
-    setTargetColour(randomColour);
-  }, [])
+    // TODO: need to store game mode in session/local storage or similar? so if refresh doesn't change back...
+    if (gameMode === "daily") {
+      const randomColour = getDailyColour(colourMap);
+      setTargetColour(randomColour);
+    }
+    else {
+      const randomColour = getRandomColour(colourMap);
+      setTargetColour(randomColour);
+    }
+    // TODO: reset guesses etc. if switch modes? could allow cheating, is there a way around for daily? use storage?
+  }, [gameMode])
+
+  function endGame() {
+    // TODO: when game complete, store date in localstorage, can later retrieve and check if today, show a sorry screen already played
+  }
 
   function splitCamelCase(text: string): string {
     let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
@@ -122,14 +134,14 @@ export default function Home() {
 
   // early returns to handle screen rendering w multiple conditions
   if (guessedCorrect) {
-    return <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} />
+    return <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} />
   }
 
   if (numGuesses < 5) {
-    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass}  showInfo={showInfo} setShowInfo={setShowInfo} />
+    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} showInfo={showInfo} setShowInfo={setShowInfo} gameMode={gameMode} setGameMode={setGameMode} />
   }
 
   return (
-    <LoseScreen targetColour={targetColour} targetColourRGB={targetColourRGB} />
+    <LoseScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} />
   );
 }

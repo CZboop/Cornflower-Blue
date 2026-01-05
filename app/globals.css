@@ -150,3 +150,7 @@ input[type=color] {
   border: 2px solid rgb(100, 180, 100);
   color: #004a00;
 }
+
+.info-box {
+  /* TODO */
+}

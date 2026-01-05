@@ -17,13 +17,15 @@ type Props = {
     getColourDiffClass: (arg0: number) => string
     showInfo: boolean
     setShowInfo: () => void
+    gameMode: string
+    setGameMode: () => void
 }
 
-export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass, showInfo, setShowInfo }: Props) {
+export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass, showInfo, setShowInfo, gameMode, setGameMode }: Props) {
 
     return (
         <div className="page-content">
-            <Title />
+            <Title gameMode={gameMode} setGameMode={setGameMode} />
             <h3>Select the colour with this name from the picker:</h3>
             {
                 targetColour ?
@@ -47,11 +49,11 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                             <div className="info-box">
                                 <p>Each number shows how far your guess was from the target, across R, G and B channels (0 = perfect match).</p>
                                 <ul>
-                                    <li>🟢 Green: Close (within 25)</li>
-                                    <li>🟠 Orange: Getting there (within 75)</li>
+                                    <li>🟢 Green: Correct, or close enough (within 25)</li>
+                                    <li>🟠 Orange: Close (within 75)</li>
                                     <li>🔴 Red: Far off (75+)</li>
                                 </ul>
-                                <p>Click the top ℹ️ icon again to close.</p>
+                                <p>Click the top ℹ️ icon again to close these details.</p>
                             </div>
                         )}
                         {pastEvals.map((guess, index) => (
