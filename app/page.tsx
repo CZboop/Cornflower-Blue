@@ -70,6 +70,28 @@ export default function Home() {
 
   function endGame() {
     // TODO: when game complete, store date in localstorage, can later retrieve and check if today, show a sorry screen already played
+    // TODO: update dailystate is the main thing, actually
+    const today = new Date().toISOString().split('T')[0];
+    localStorage.setItem('dailyGameState', JSON.stringify({
+      date: today,
+      numGuesses,
+      pastEvals,
+      guessedCorrect
+    }));
+  }
+
+  function resetGame() {
+    setPastEvals([]);
+    setNumGuesses(0);
+    setGuessedCorrect(false);
+    setColour("#ffffff");
+
+    // new colour if random mode
+    if (gameMode === "random") {
+      const newColour = getRandomColour(colourMap);
+      setTargetColour(newColour);
+    }
+    // otherwise don't reset
   }
 
   function splitCamelCase(text: string): string {
@@ -170,14 +192,19 @@ export default function Home() {
 
   // early returns to handle screen rendering w multiple conditions
   if (guessedCorrect) {
-    return <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} />
+    endGame();
+    return <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} resetGame={resetGame} />
   }
 
   if (numGuesses < 5) {
     return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} showInfo={showInfo} setShowInfo={setShowInfo} gameMode={gameMode} setGameMode={setGameMode} />
   }
 
-  return (
-    <LoseScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} />
-  );
+  else {
+    endGame();
+    return (
+      <LoseScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} resetGame={resetGame} />
+    );
+  }
+
 }

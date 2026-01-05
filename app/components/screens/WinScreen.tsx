@@ -7,9 +7,10 @@ type Props = {
     targetColourRGB: { r: string, g: string, b: string }
     gameMode: string
     setGameMode: () => void
+    resetGame: () => void
 }
 
-export default function WinScreen({ targetColour, targetColourRGB, gameMode, setGameMode }: Props) {
+export default function WinScreen({ targetColour, targetColourRGB, gameMode, setGameMode, resetGame }: Props) {
 
     return (
         <div className="page-content">
@@ -18,6 +19,14 @@ export default function WinScreen({ targetColour, targetColourRGB, gameMode, set
             <h2>Correct!</h2>
             <p>The exact colour for "{targetColour.name}" was:</p>
             <CorrectColour targetColour={targetColour} targetColourRGB={targetColourRGB} />
+            { gameMode === "random" ? (
+                <button onClick={resetGame}>Play Again</button>
+            ) : (
+                <button onClick={() => { setGameMode("random"); resetGame(); }}>
+                    Play Random Mode
+                </button>
+            )}
+            {/* TODO: play again logic as shared component */}
         </div>
     )
 }
