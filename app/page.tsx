@@ -18,6 +18,7 @@ export default function Home() {
   const [guessedCorrect, setGuessedCorrect] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [gameMode, setGameMode] = useState(null);
+  const [todayGuesses, setTodayGuesses] = useState(null);
 
 
   useEffect(() => {
@@ -31,14 +32,40 @@ export default function Home() {
     // TODO: could add a button for this? get a different colour in random mode...
     localStorage.setItem('gameMode', gameMode);
     if (gameMode === "daily") {
-      const randomColour = getDailyColour(colourMap);
-      setTargetColour(randomColour);
+      // switching to daily, restore saved state if from today
+      const saved = localStorage.getItem('dailyGameState');
+      if (saved) {
+        const { date, numGuesses: savedGuesses, pastEvals: savedEvals, guessedCorrect: savedCorrect } = JSON.parse(saved);
+        const today = new Date().toISOString().split('T')[0];
+        if (date === today) {
+          setNumGuesses(savedGuesses);
+          setPastEvals(savedEvals);
+          setGuessedCorrect(savedCorrect);
+          return; // don't reset state
+        }
+        const randomColour = getDailyColour(colourMap);
+        setTargetColour(randomColour);
+      }
     }
     else {
+      // switching to random/from daily, save daily, start random fresh
+      // save current daily state to local storage before switching
+      const today = new Date().toISOString().split('T')[0];
+      localStorage.setItem('dailyGameState', JSON.stringify({
+        date: today,
+        numGuesses,
+        pastEvals,
+        guessedCorrect
+      }));
+
+      // reset state for random mode
+      setPastEvals([]);
+      setNumGuesses(0);
+      setGuessedCorrect(false);
+
       const randomColour = getRandomColour(colourMap);
       setTargetColour(randomColour);
     }
-    // TODO: reset guesses etc. if switch modes? could allow cheating, is there a way around for daily? use storage?
   }, [gameMode])
 
   function endGame() {
