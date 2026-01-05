@@ -17,10 +17,19 @@ export default function Home() {
   const [bounds, setBounds] = useState({ "green": 25, "orange": 75 });
   const [guessedCorrect, setGuessedCorrect] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
-  const [gameMode, setGameMode] = useState("daily");
+  const [gameMode, setGameMode] = useState(null);
+
 
   useEffect(() => {
-    // TODO: need to store game mode in session/local storage or similar? so if refresh doesn't change back...
+    const savedMode = localStorage.getItem('gameMode') || 'daily';
+    setGameMode(savedMode);
+  }, []);
+
+  useEffect(() => {
+    if (gameMode === null) return;
+    // store game mode in local storage so can refresh e.g. if playing random and want different colours
+    // TODO: could add a button for this? get a different colour in random mode...
+    localStorage.setItem('gameMode', gameMode);
     if (gameMode === "daily") {
       const randomColour = getDailyColour(colourMap);
       setTargetColour(randomColour);
