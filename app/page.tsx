@@ -28,6 +28,8 @@ export default function Home() {
 
   useEffect(() => {
     if (gameMode === null) return;
+    const randomColour = getDailyColour(colourMap);
+    setTargetColour(randomColour);
     // store game mode in local storage so can refresh e.g. if playing random and want different colours
     // TODO: could add a button for this? get a different colour in random mode...
     localStorage.setItem('gameMode', gameMode);
@@ -43,8 +45,6 @@ export default function Home() {
           setGuessedCorrect(savedCorrect);
           return; // don't reset state
         }
-        const randomColour = getDailyColour(colourMap);
-        setTargetColour(randomColour);
       }
     }
     else {
