@@ -26,10 +26,9 @@ export default function Home() {
 
   useEffect(() => {
     if (gameMode === null) return;
-    const randomColour = getDailyColour(colourMap);
+    const randomColour = getColour(colourMap, "daily");
     setTargetColour(randomColour);
     // store game mode in local storage so can refresh e.g. if playing random and want different colours
-    // TODO: could add a button for this? get a different colour in random mode...
     localStorage.setItem('gameMode', gameMode);
     if (gameMode === "daily") {
       // switching to daily, restore saved state if from today
@@ -61,14 +60,14 @@ export default function Home() {
       setNumGuesses(0);
       setGuessedCorrect(false);
 
-      const randomColour = getRandomColour(colourMap);
+      const randomColour = getColour(colourMap, "random");
       setTargetColour(randomColour);
     }
   }, [gameMode])
 
   function endGame() {
-    // TODO: when game complete, store date in localstorage, can later retrieve and check if today, show a sorry screen already played
-    // TODO: update dailystate is the main thing, actually
+    // when game complete, store date in localstorage, for handling daily play
+    // update dailystate
     const today = new Date().toISOString().split('T')[0];
     localStorage.setItem('dailyGameState', JSON.stringify({
       date: today,
@@ -86,7 +85,7 @@ export default function Home() {
 
     // new colour if random mode
     if (gameMode === "random") {
-      const newColour = getRandomColour(colourMap);
+      const newColour = getColour(colourMap, "random");
       setTargetColour(newColour);
     }
     // otherwise don't reset
@@ -97,37 +96,32 @@ export default function Home() {
     return splitWords.join(" ")
   }
 
-  function getDailyColour(colourMap: Record<string, string>) {
-    const today = new Date().toISOString().split('T')[0] // format = "2026-01-03"
+  function getColour(colourMap: Record<string, string>, mode: string) {
+    if (mode === "daily") {
+      const today = new Date().toISOString().split('T')[0] // format = "2026-01-03"
 
-    // hash date string to get consistent random index
-    let hash = 0
-    for (let i = 0; i < today.length; i++) {
-      hash = (hash * 31) + today.charCodeAt(i)
-      hash = Math.trunc(hash)
+      // hash date string to get consistent random index
+      let hash = 0
+      for (let i = 0; i < today.length; i++) {
+        hash = (hash * 31) + today.charCodeAt(i)
+        hash = Math.trunc(hash)
+      }
+
+      const keys = Object.keys(colourMap)
+      const index = Math.abs(hash) % keys.length
+      const hashKey = keys[index]
+
+      const randomColour = colourMap[hashKey];
+      setTargetColourRGB(hexToRgb(randomColour));
+      return { name: splitCamelCase(hashKey), value: randomColour };
+    } else {
+      const keys = Object.keys(colourMap);
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      const randomColour = colourMap[randomKey];
+      setTargetColourRGB(hexToRgb(randomColour));
+      return { name: splitCamelCase(randomKey), value: randomColour };
     }
-
-    const keys = Object.keys(colourMap)
-    const index = Math.abs(hash) % keys.length
-    const hashKey = keys[index]
-
-    const randomColour = colourMap[hashKey];
-    setTargetColourRGB(hexToRgb(randomColour));
-    return { name: splitCamelCase(hashKey), value: randomColour };
   }
-
-  function getRandomColour(colourMap: Record<string, string>) {
-    const keys = Object.keys(colourMap);
-    const randomKey = keys[Math.floor(Math.random() * keys.length)];
-    const randomColour = colourMap[randomKey];
-    setTargetColourRGB(hexToRgb(randomColour));
-    return { name: splitCamelCase(randomKey), value: randomColour };
-  }
-
-
-  // function handleColourPicker(event: React.ChangeEvent<HTMLInputElement>) {
-  //   setColour(event.target.value)
-  // }
 
   function hexToRgb(hex: string) {
     // slice if alpha, will have two extra digits
