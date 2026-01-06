@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react';
 import colourMap from './colours/html_colour_map.json';
 import GameScreen from './components/screens/GameScreen';
-import WinScreen from './components/screens/WinScreen';
-import LostScreen from './components/LostScreen';
-import LoseScreen from './components/screens/LoseScreen';
+import EndScreen from './components/screens/EndScreen';
 
 
 export default function Home() {
@@ -191,20 +189,13 @@ export default function Home() {
   }
 
   // early returns to handle screen rendering w multiple conditions
-  if (guessedCorrect) {
+  if (guessedCorrect || numGuesses >= 5) {
     endGame();
-    return <WinScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} resetGame={resetGame} />
+    return <EndScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} resetGame={resetGame} guessedCorrect={guessedCorrect} />
   }
 
   if (numGuesses < 5) {
     return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} showInfo={showInfo} setShowInfo={setShowInfo} gameMode={gameMode} setGameMode={setGameMode} />
-  }
-
-  else {
-    endGame();
-    return (
-      <LoseScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} resetGame={resetGame} />
-    );
   }
 
 }

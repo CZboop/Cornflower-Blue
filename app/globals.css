@@ -46,37 +46,6 @@ h1 {
   display: flex;
 }
 
-.colour-label {
-  margin-right: 1.5em;
-  border-radius: 10%;
-  padding: 0.25em;
-  margin-top: 1em;
-}
-
-.bg-red-diff {
-  background-color: rgb(255, 154, 154);
-  border: 1px dotted red;
-  color: purple;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
-  padding: 0.25em 1em 0.25em 1em;
-}
-
-.bg-orange-diff {
-  background-color: rgb(255, 208, 122);
-  border: 1px dotted orange;
-  color: purple;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
-  padding: 0.25em 1em 0.25em 1em;
-}
-
-.bg-green-diff {
-  background-color: rgb(174, 254, 174);
-  border: 1px dotted green;
-  color: purple;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
-  padding: 0.25em 1em 0.25em 1em;
-}
-
 input[type=submit] {
   background: var(--ps-light);
   color: var(--ps-border);
@@ -85,7 +54,6 @@ input[type=submit] {
   border-radius: 5px;
   cursor: pointer;
   font-weight: 500;
-  /* transition: background 0.2s; */
 }
 
 input[type=color] {
@@ -110,10 +78,6 @@ input[type=color] {
   color: black;
   margin-top: 1em;
   margin-bottom: 0.5em;
-}
-
-.colour-label {
-  text-align: center;
 }
 
 .guess-row {

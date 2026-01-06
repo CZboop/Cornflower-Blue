@@ -8,16 +8,27 @@ type Props = {
     gameMode: string
     setGameMode: () => void
     resetGame: () => void
+    guessedCorrect: boolean
 }
 
-export default function WinScreen({ targetColour, targetColourRGB, gameMode, setGameMode, resetGame }: Props) {
+export default function WinScreen({ targetColour, targetColourRGB, gameMode, setGameMode, resetGame, guessedCorrect }: Props) {
 
     return (
         <div className="page-content">
             <Title gameMode={gameMode} setGameMode={setGameMode} />
-            <Confetti />
-            <h2>Correct!</h2>
-            <p>The exact colour for "{targetColour.name}" was:</p>
+            {
+                guessedCorrect ?
+                <>
+                <Confetti />
+                <h2>Correct!</h2>
+                <p>The exact colour for "{targetColour.name}" was:</p>
+                </>
+                :
+                <>
+                <p>You ran out of guesses.</p>
+                <p>The correct colour for "{targetColour.name}" was:</p>
+                </>
+            }
             <CorrectColour targetColour={targetColour} targetColourRGB={targetColourRGB} />
             { gameMode === "random" ? (
                 <button onClick={resetGame}>Play Again</button>
@@ -26,7 +37,6 @@ export default function WinScreen({ targetColour, targetColourRGB, gameMode, set
                     Play Random Mode
                 </button>
             )}
-            {/* TODO: play again logic as shared component */}
         </div>
     )
 }
