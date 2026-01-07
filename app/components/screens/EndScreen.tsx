@@ -3,15 +3,15 @@ import CorrectColour from '../shared/CorrectColour';
 import Title from '../shared/Title';
 
 type Props = {
-    targetColour: { name: string, value: string }
-    targetColourRGB: { r: string, g: string, b: string }
+    targetColour: Colour
+    targetColourRGB: ColourRGB
     gameMode: string
-    setGameMode: () => void
+    setGameMode: (arg0: string) => void
     resetGame: () => void
     guessedCorrect: boolean
 }
 
-export default function WinScreen({ targetColour, targetColourRGB, gameMode, setGameMode, resetGame, guessedCorrect }: Props) {
+export default function WinScreen({ targetColour, targetColourRGB, gameMode, setGameMode, resetGame, guessedCorrect }: Readonly<Props>) {
 
     return (
         <div className="page-content">

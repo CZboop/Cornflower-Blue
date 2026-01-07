@@ -1,12 +1,12 @@
 import { PhotoshopPicker } from 'react-color';
 
 type Props = {
-    targetColour: { name: string, value: string }
-    targetColourRGB: { r: string, g: string, b: string }
+    targetColour: Colour
+    targetColourRGB: ColourRGB
 }
 
 
-export default function CorrectColour({ targetColour, targetColourRGB }: Props) {
+export default function CorrectColour({ targetColour, targetColourRGB }: Readonly<Props>) {
     return (
         <div className="page-content">
             <div className="colour-diffs">

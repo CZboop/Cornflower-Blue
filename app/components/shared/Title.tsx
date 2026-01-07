@@ -1,9 +1,9 @@
 type Props = {
     gameMode: string
-    setGameMode: () => void
+    setGameMode: (arg0: string) => void
 }
 
-export default function Title({ gameMode, setGameMode }: Props) {
+export default function Title({ gameMode, setGameMode }: Readonly<Props>) {
     return (
         <>
             <h1>Cornflower Blue - Colour Guessing Game 🎨</h1>
