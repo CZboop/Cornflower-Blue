@@ -12,11 +12,10 @@ export default function Home() {
   const [targetColour, setTargetColour] = useState(null);
   const [pastEvals, setPastEvals] = useState([]);
   const [numGuesses, setNumGuesses] = useState(0);
-  const [bounds, setBounds] = useState({ "green": 25, "orange": 75 });
+  const [bounds, _] = useState({ "green": 25, "orange": 75 });
   const [guessedCorrect, setGuessedCorrect] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [gameMode, setGameMode] = useState(null);
-  const [todayGuesses, setTodayGuesses] = useState(null);
 
 
   useEffect(() => {
@@ -192,7 +191,7 @@ export default function Home() {
   }
 
   if (numGuesses < 5) {
-    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} showInfo={showInfo} setShowInfo={setShowInfo} gameMode={gameMode} setGameMode={setGameMode} />
+    return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} showInfo={showInfo} setShowInfo={setShowInfo} gameMode={gameMode} setGameMode={setGameMode} bounds={bounds} />
   }
 
 }

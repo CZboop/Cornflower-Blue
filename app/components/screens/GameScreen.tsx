@@ -10,6 +10,11 @@ type Colour = {
     b_val: string
 }
 
+type Bounds = {
+    green: number
+    orange: number
+}
+
 type Props = {
     numGuesses: number
     targetColour: { name: string, value: string }
@@ -22,9 +27,10 @@ type Props = {
     setShowInfo: () => void
     gameMode: string
     setGameMode: () => void
+    bounds: Bounds
 }
 
-export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass, showInfo, setShowInfo, gameMode, setGameMode }: Props) {
+export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass, showInfo, setShowInfo, gameMode, setGameMode, bounds }: Props) {
 
     return (
         <div className="page-content">
@@ -52,9 +58,9 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                             <div className="info-box">
                                 <p>Each number shows the R, G, or B value of the guess. The colours show roughly how far the guess was from being correct across each colour channel.</p>
                                 <ul>
-                                    <li>🟢 Green: Correct, or close enough (within 25)</li>
-                                    <li>🟠 Orange: Close (within 75)</li>
-                                    <li>🔴 Red: Far off (75+)</li>
+                                    <li>🟢 Green: Correct, or close enough (within {bounds.green})</li>
+                                    <li>🟠 Orange: Close (within {bounds.orange})</li>
+                                    <li>🔴 Red: Far off ({bounds.orange}+)</li>
                                 </ul>
                                 <p>Click the top ℹ️ icon again to close these details.</p>
                             </div>
