@@ -151,9 +151,12 @@ export default function Home() {
       }
 
       return {
-        r: colourDiffR,
-        g: colourDiffG,
-        b: colourDiffB
+        r_val: pickedColourRGB.r,
+        g_val: pickedColourRGB.g,
+        b_val: pickedColourRGB.b,
+        r_diff: colourDiffR,
+        g_diff: colourDiffG,
+        b_diff: colourDiffB
       };
     } catch (e: any) {
       console.error(e.message);
@@ -178,7 +181,7 @@ export default function Home() {
     let pickerInput = formData.get("picker-input")
     console.log(pickerInput);
     let colourEval = evaluateColours();
-    setPastEvals([...pastEvals, { "r": colourEval.r, "g": colourEval.g, "b": colourEval.b }]);
+    setPastEvals([...pastEvals, { "r_diff": colourEval.r_diff, "g_diff": colourEval.g_diff, "b_diff": colourEval.b_diff, "r_val": colourEval.r_val, "g_val": colourEval.g_val, "b_val": colourEval.b_val }]);
     setNumGuesses(numGuesses + 1);
   }
 

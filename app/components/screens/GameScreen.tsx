@@ -2,9 +2,12 @@ import Title from "../shared/Title";
 import { PhotoshopPicker } from 'react-color';
 
 type Colour = {
-    r: string
-    g: string
-    b: string
+    r_diff: string
+    g_diff: string
+    b_diff: string
+    r_val: string
+    g_val: string
+    b_val: string
 }
 
 type Props = {
@@ -47,7 +50,7 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
 
                         {showInfo && (
                             <div className="info-box">
-                                <p>Each number shows how far your guess was from the target, across R, G and B channels (0 = perfect match).</p>
+                                <p>Each number shows the R, G, or B value of the guess. The colours show roughly how far the guess was from being correct across each colour channel.</p>
                                 <ul>
                                     <li>🟢 Green: Correct, or close enough (within 25)</li>
                                     <li>🟠 Orange: Close (within 75)</li>
@@ -58,9 +61,9 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                         )}
                         {pastEvals.map((guess, index) => (
                             <div key={`guess-${index}`} className="guess-row">
-                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.r))}`}>R: {guess.r}</span>
-                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.g))}`}>G: {guess.g}</span>
-                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.b))}`}>B: {guess.b}</span>
+                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.r_diff))}`}>R: {guess.r_val}</span>
+                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.g_diff))}`}>G: {guess.g_val}</span>
+                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.b_diff))}`}>B: {guess.b_val}</span>
                             </div>
                         ))}
                     </>
