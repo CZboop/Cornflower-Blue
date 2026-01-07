@@ -191,6 +191,9 @@ export default function Home() {
   }
 
   // early returns to handle screen rendering w multiple conditions
+  if (gameMode === null || targetColour === null || targetColourRGB === null) {
+    return <div>Loading...</div>;
+  }
   if (guessedCorrect || numGuesses >= 5) {
     endGame();
     return <EndScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} resetGame={resetGame} guessedCorrect={guessedCorrect} />

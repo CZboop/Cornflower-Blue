@@ -10,7 +10,7 @@ type Props = {
     pastEvals: Array<Evals>
     getColourDiffClass: (arg0: number) => string
     showInfo: boolean
-    setShowInfo: () => void
+    setShowInfo: (arg0: boolean) => void
     gameMode: string
     setGameMode: () => void
     bounds: Bounds
@@ -37,7 +37,7 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
 
                 {pastEvals.length > 0 ?
                     <>
-                        <h3 className="past-guesses">Past Guesses: <span className="info-icon" onClick={() => setShowInfo(!showInfo)}>ℹ️</span>
+                        <h3 className="past-guesses">Past Guesses: <button className="info-icon" onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
                         </h3>
 
                         {showInfo && (
