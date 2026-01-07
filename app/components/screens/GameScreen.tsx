@@ -1,27 +1,13 @@
 import Title from "../shared/Title";
-import { PhotoshopPicker } from 'react-color';
-
-type Colour = {
-    r_diff: string
-    g_diff: string
-    b_diff: string
-    r_val: string
-    g_val: string
-    b_val: string
-}
-
-type Bounds = {
-    green: number
-    orange: number
-}
+import { PhotoshopPicker, ColorResult } from 'react-color';
 
 type Props = {
     numGuesses: number
-    targetColour: { name: string, value: string }
+    targetColour: Colour
     formAction: () => void
     colour: string
-    setColour: () => void
-    pastEvals: Array<Colour>
+    setColour: (arg0: string) => void
+    pastEvals: Array<Evals>
     getColourDiffClass: (arg0: number) => string
     showInfo: boolean
     setShowInfo: () => void
@@ -30,7 +16,7 @@ type Props = {
     bounds: Bounds
 }
 
-export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass, showInfo, setShowInfo, gameMode, setGameMode, bounds }: Props) {
+export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass, showInfo, setShowInfo, gameMode, setGameMode, bounds }: Readonly<Props>) {
 
     return (
         <div className="page-content">
@@ -44,10 +30,10 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
 
             <form action={formAction}>
                 <div className="colour-picker">
-                    <PhotoshopPicker key={numGuesses} color={colour} onChange={(c) => setColour(c.hex)} />
+                    <PhotoshopPicker key={numGuesses} color={colour} onChange={(c: ColorResult) => setColour(c.hex)} />
                 </div>
                 <input type="submit"></input>
-                <h3>You have <b>{5 - numGuesses}</b> guesses left - {Array(5).fill(null).map((_, i) => (<span key={i}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
+                <h3>You have <b>{5 - numGuesses}</b> guesses left - {new Array(5).fill(null).map((_, i) => (<span key={`life-${i}`}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
 
                 {pastEvals.length > 0 ?
                     <>
@@ -65,11 +51,11 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                                 <p>Click the top ℹ️ icon again to close these details.</p>
                             </div>
                         )}
-                        {pastEvals.map((guess, index) => (
+                        {pastEvals.map((guess: Evals, index) => (
                             <div key={`guess-${index}`} className="guess-row">
-                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.r_diff))}`}>R: {guess.r_val}</span>
-                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.g_diff))}`}>G: {guess.g_val}</span>
-                                <span className={`colour-label ${getColourDiffClass(parseInt(guess.b_diff))}`}>B: {guess.b_val}</span>
+                                <span className={`colour-label ${getColourDiffClass(guess.r_diff)}`}>R: {guess.r_val}</span>
+                                <span className={`colour-label ${getColourDiffClass(guess.g_diff)}`}>G: {guess.g_val}</span>
+                                <span className={`colour-label ${getColourDiffClass(guess.b_diff)}`}>B: {guess.b_val}</span>
                             </div>
                         ))}
                     </>

@@ -5,26 +5,6 @@ import colourMap from './colours/html_colour_map.json';
 import GameScreen from './components/screens/GameScreen';
 import EndScreen from './components/screens/EndScreen';
 
-// type definitions
-type Colour = {
-  name: string
-  value: string
-}
-
-type ColourRGB = {
-  r: number
-  g: number
-  b: number
-}
-
-type Evals = {
-  r_diff: number
-  r_val: number
-  g_diff: number
-  g_val: number
-  b_diff: number
-  b_val: number
-}
 
 // pure functions that don't need state or reloading
 function splitCamelCase(text: string): string {
