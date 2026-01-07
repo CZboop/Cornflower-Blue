@@ -5,17 +5,59 @@ import colourMap from './colours/html_colour_map.json';
 import GameScreen from './components/screens/GameScreen';
 import EndScreen from './components/screens/EndScreen';
 
+// type definitions
+type Colour = {
+  name: string
+  value: string
+}
 
+type ColourRGB = {
+  r: number
+  g: number
+  b: number
+}
+
+type Evals = {
+  r_diff: number
+  r_val: number
+  g_diff: number
+  g_val: number
+  b_diff: number
+  b_val: number
+}
+
+// pure functions that don't need state or reloading
+function splitCamelCase(text: string): string {
+  let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  return splitWords.join(" ")
+}
+
+function hexToRgb(hex: string) {
+  // slice if alpha, will have two extra digits
+  hex = hex.slice(0, 7);
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) {
+    throw new Error(`Invalid hex colour: ${hex}, could not convert to RGB`);
+  }
+  return {
+    r: Number.parseInt(result[1], 16),
+    g: Number.parseInt(result[2], 16),
+    b: Number.parseInt(result[3], 16)
+  };
+}
+
+// main page component
 export default function Home() {
+  const bounds = { "green": 25, "orange": 75 };
+
   const [colour, setColour] = useState("#ffffff");
-  const [targetColourRGB, setTargetColourRGB] = useState({});
-  const [targetColour, setTargetColour] = useState(null);
-  const [pastEvals, setPastEvals] = useState([]);
+  const [targetColourRGB, setTargetColourRGB] = useState<ColourRGB | null>(null);
+  const [targetColour, setTargetColour] = useState<Colour | null>(null);
+  const [pastEvals, setPastEvals] = useState<Evals[]>([]);
   const [numGuesses, setNumGuesses] = useState(0);
-  const [bounds, _] = useState({ "green": 25, "orange": 75 });
   const [guessedCorrect, setGuessedCorrect] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
-  const [gameMode, setGameMode] = useState(null);
+  const [gameMode, setGameMode] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -90,11 +132,6 @@ export default function Home() {
     // otherwise don't reset
   }
 
-  function splitCamelCase(text: string): string {
-    let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
-    return splitWords.join(" ")
-  }
-
   function getColour(colourMap: Record<string, string>, mode: string) {
     if (mode === "daily") {
       const today = new Date().toISOString().split('T')[0] // format = "2026-01-03"
@@ -102,7 +139,7 @@ export default function Home() {
       // hash date string to get consistent random index
       let hash = 0
       for (let i = 0; i < today.length; i++) {
-        hash = (hash * 31) + today.charCodeAt(i)
+        hash = (hash * 31) + (today.codePointAt(i) ?? 0)
         hash = Math.trunc(hash)
       }
 
@@ -122,21 +159,9 @@ export default function Home() {
     }
   }
 
-  function hexToRgb(hex: string) {
-    // slice if alpha, will have two extra digits
-    hex = hex.slice(0, 7);
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    if (!result) {
-      throw new Error(`Invalid hex colour: ${hex}, could not convert to RGB`);
-    }
-    return {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    };
-  }
-
   function evaluateColours() {
+    // early return if null nothing to evaluate
+    if (!targetColourRGB) return;
     // get colour differences in RGB and show
     try {
       let pickedColourRGB = hexToRgb(colour);
@@ -180,6 +205,7 @@ export default function Home() {
     let pickerInput = formData.get("picker-input")
     console.log(pickerInput);
     let colourEval = evaluateColours();
+    if (!colourEval) { return; }
     setPastEvals([...pastEvals, { "r_diff": colourEval.r_diff, "g_diff": colourEval.g_diff, "b_diff": colourEval.b_diff, "r_val": colourEval.r_val, "g_val": colourEval.g_val, "b_val": colourEval.b_val }]);
     setNumGuesses(numGuesses + 1);
   }
