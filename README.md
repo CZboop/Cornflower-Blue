@@ -2,7 +2,8 @@
 
 [![Cornflower Blue CI](https://github.com/CZboop/Cornflower-Blue/actions/workflows/ci.yml/badge.svg)](https://github.com/CZboop/Cornflower-Blue/actions/workflows/ci.yml)
 
-Colour picking game where you must select a standard HTML colour, based on its name. Made using Next.js
+Colour picking game where you must select a standard CSS colour, based on its name. Made using Next.js.
+
 Play daily or random mode - you have 5 guesses to get close enough to the correct colour!
 
 ## Running the development server

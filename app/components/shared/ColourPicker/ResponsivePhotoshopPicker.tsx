@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { CustomPicker, InjectedColorProps } from 'react-color';
-// @ts-expect-error - internal react-color components not typed
 import { Saturation, Hue, EditableInput } from 'react-color/lib/components/common';
 
 // pointer components
