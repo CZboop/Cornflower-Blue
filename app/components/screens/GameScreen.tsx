@@ -1,5 +1,6 @@
 import Title from "../shared/Title";
 import { PhotoshopPicker, ColorResult } from 'react-color';
+import ResponsivePhotoshopPicker from "../shared/ColourPicker/ResponsivePhotoshopPicker";
 
 type Props = {
     numGuesses: number
@@ -30,7 +31,7 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
 
             <form action={formAction}>
                 <div className="colour-picker">
-                    <PhotoshopPicker key={numGuesses} color={colour} onChange={(c: ColorResult) => setColour(c.hex)} />
+                    <ResponsivePhotoshopPicker key={numGuesses} color={colour} onChange={(c: ColorResult) => setColour(c.hex)} />
                 </div>
                 <input type="submit"></input>
                 <h3>You have <b>{5 - numGuesses}</b> guesses left - {new Array(5).fill(null).map((_, i) => (<span key={`life-${i}`}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>

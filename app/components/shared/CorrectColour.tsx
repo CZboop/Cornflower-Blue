@@ -1,4 +1,5 @@
 import { PhotoshopPicker } from 'react-color';
+import ResponsivePhotoshopPicker from './ColourPicker/ResponsivePhotoshopPicker';
 
 type Props = {
     targetColour: Colour
@@ -15,7 +16,7 @@ export default function CorrectColour({ targetColour, targetColourRGB }: Readonl
                 <h2 className="colour-label">B: {targetColourRGB.b}</h2>
             </div>
             <div className="colour-picker">
-                <PhotoshopPicker color={targetColour.value} />
+                <ResponsivePhotoshopPicker color={targetColour.value} />
             </div>
         </div>
     )
