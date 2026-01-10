@@ -1,5 +1,4 @@
 import Title from "../shared/Title";
-import { PhotoshopPicker, ColorResult } from 'react-color';
 import ResponsivePhotoshopPicker from "../shared/ColourPicker/ResponsivePhotoshopPicker";
 
 type Props = {

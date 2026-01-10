@@ -1,4 +1,3 @@
-import { PhotoshopPicker } from 'react-color';
 import ResponsivePhotoshopPicker from './ColourPicker/ResponsivePhotoshopPicker';
 
 type Props = {

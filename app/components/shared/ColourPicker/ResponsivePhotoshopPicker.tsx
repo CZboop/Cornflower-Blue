@@ -1,8 +1,9 @@
 'use client';
-
+ /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { CustomPicker, InjectedColorProps } from 'react-color';
-import { Saturation, Hue, EditableInput } from 'react-color/lib/components/common';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { Saturation, Hue, EditableInput } = require('react-color/lib/components/common');
 
 // pointer components
 const SaturationPointer = () => (
@@ -38,7 +39,14 @@ const HuePointerHorizontal = () => (
     }} />
 );
 
+interface HSVColor {
+    h: number;
+    s: number;
+    v: number;
+}
+
 type Props = InjectedColorProps & {
+    hsv?: HSVColor; // Injected by CustomPicker but missing from @types/react-color
     currentColor?: string;
     onAccept?: () => void;
     onCancel?: () => void;
@@ -98,7 +106,7 @@ function ResponsivePhotoshopPickerComponent({
                             hsl={hsl}
                             hsv={hsv}
                             pointer={SaturationPointer}
-                            onChange={onChange}
+                            onChange={onChange as any}
                         />
                     </div>
 
@@ -108,7 +116,7 @@ function ResponsivePhotoshopPickerComponent({
                             hsl={hsl}
                             direction="horizontal"
                             pointer={HuePointerHorizontal}
-                            onChange={onChange}
+                            onChange={onChange as any}
                         />
                     </div>
 
@@ -118,7 +126,7 @@ function ResponsivePhotoshopPickerComponent({
                             hsl={hsl}
                             direction="vertical"
                             pointer={HuePointer}
-                            onChange={onChange}
+                            onChange={onChange as any}
                         />
                     </div>
 
@@ -154,7 +162,7 @@ function ResponsivePhotoshopPickerComponent({
                                         style={{ input: inputStyles.input }}
                                         label=""
                                         value={rgb?.r}
-                                        onChange={(data: { r?: number }) => data.r !== undefined && onChange?.({ r: data.r, g: rgb?.g, b: rgb?.b }, null)}
+                                        onChange={(data: { r?: number }) => data.r !== undefined && onChange?.({ r: data.r, g: rgb?.g ?? 0, b: rgb?.b ?? 0 })}
                                     />
                                 </div>
                                 <div className="flex items-center gap-1">
@@ -163,7 +171,7 @@ function ResponsivePhotoshopPickerComponent({
                                         style={{ input: inputStyles.input }}
                                         label=""
                                         value={rgb?.g}
-                                        onChange={(data: { g?: number }) => data.g !== undefined && onChange?.({ r: rgb?.r, g: data.g, b: rgb?.b }, null)}
+                                        onChange={(data: { g?: number }) => data.g !== undefined && onChange?.({ r: rgb?.r ?? 0, g: data.g, b: rgb?.b ?? 0 })}
                                     />
                                 </div>
                                 <div className="flex items-center gap-1">
@@ -172,7 +180,7 @@ function ResponsivePhotoshopPickerComponent({
                                         style={{ input: inputStyles.input }}
                                         label=""
                                         value={rgb?.b}
-                                        onChange={(data: { b?: number }) => data.b !== undefined && onChange?.({ r: rgb?.r, g: rgb?.g, b: data.b }, null)}
+                                        onChange={(data: { b?: number }) => data.b !== undefined && onChange?.({ r: rgb?.r ?? 0, g: rgb?.g ?? 0, b: data.b })}
                                     />
                                 </div>
                             </div>
@@ -186,7 +194,7 @@ function ResponsivePhotoshopPickerComponent({
                                     style={{ input: inputStyles.input }}
                                     label=""
                                     value={rgb?.r}
-                                    onChange={(data: { r?: number }) => data.r !== undefined && onChange?.({ r: data.r, g: rgb?.g, b: rgb?.b }, null)}
+                                    onChange={(data: { r?: number }) => data.r !== undefined && onChange?.({ r: data.r, g: rgb?.g ?? 0, b: rgb?.b ?? 0 })}
                                 />
                             </div>
                             <div className="flex items-center gap-1">
@@ -195,7 +203,7 @@ function ResponsivePhotoshopPickerComponent({
                                     style={{ input: inputStyles.input }}
                                     label=""
                                     value={rgb?.g}
-                                    onChange={(data: { g?: number }) => data.g !== undefined && onChange?.({ r: rgb?.r, g: data.g, b: rgb?.b }, null)}
+                                    onChange={(data: { g?: number }) => data.g !== undefined && onChange?.({ r: rgb?.r ?? 0, g: data.g, b: rgb?.b ?? 0 })}
                                 />
                             </div>
                             <div className="flex items-center gap-1">
@@ -204,7 +212,7 @@ function ResponsivePhotoshopPickerComponent({
                                     style={{ input: inputStyles.input }}
                                     label=""
                                     value={rgb?.b}
-                                    onChange={(data: { b?: number }) => data.b !== undefined && onChange?.({ r: rgb?.r, g: rgb?.g, b: data.b }, null)}
+                                    onChange={(data: { b?: number }) => data.b !== undefined && onChange?.({ r: rgb?.r ?? 0, g: rgb?.g ?? 0, b: data.b })}
                                 />
                             </div>
                             <div className="flex items-center gap-1 mt-3">
@@ -213,7 +221,7 @@ function ResponsivePhotoshopPickerComponent({
                                     style={{ input: { ...inputStyles.input, width: '60px' } }}
                                     label=""
                                     value={hex?.replace('#', '')}
-                                    onChange={(data: { hex?: string }) => data.hex !== undefined && onChange?.({ hex: data.hex }, null)}
+                                    onChange={(data: { hex?: string }) => data.hex !== undefined && onChange?.(`#${data.hex}`)}
                                 />
                             </div>
                         </div>

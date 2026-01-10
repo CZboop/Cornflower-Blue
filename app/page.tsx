@@ -10,7 +10,7 @@ import EndScreen from './components/screens/EndScreen';
 
 /** Splits camel case into words (for colour names) */
 function splitCamelCase(text: string): string {
-  let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  const splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
   return splitWords.join(" ")
 }
 
@@ -88,6 +88,7 @@ export default function Home() {
       const randomColour = getColour(colourMap, "random");
       setTargetColour(randomColour);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally only run on gameMode change, not on every guess
   }, [gameMode])
 
   /** Store date in localstorage when game complete, for daily play */
@@ -151,11 +152,11 @@ export default function Home() {
     if (!targetColourRGB) return;
     // get colour differences in RGB and show
     try {
-      let pickedColourRGB = hexToRgb(colour);
+      const pickedColourRGB = hexToRgb(colour);
 
-      let colourDiffR = Math.abs(targetColourRGB.r - pickedColourRGB.r)
-      let colourDiffG = Math.abs(targetColourRGB.g - pickedColourRGB.g)
-      let colourDiffB = Math.abs(targetColourRGB.b - pickedColourRGB.b)
+      const colourDiffR = Math.abs(targetColourRGB.r - pickedColourRGB.r)
+      const colourDiffG = Math.abs(targetColourRGB.g - pickedColourRGB.g)
+      const colourDiffB = Math.abs(targetColourRGB.b - pickedColourRGB.b)
 
       if ([colourDiffR, colourDiffG, colourDiffB].every((diff) => { return diff <= bounds.green })) {
         setGuessedCorrect(true);
@@ -169,8 +170,12 @@ export default function Home() {
         g_diff: colourDiffG,
         b_diff: colourDiffB
       };
-    } catch (e: any) {
-      console.error(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.error(e.message);
+      } else {
+        console.error(e);
+      }
     }
   }
 
@@ -190,9 +195,8 @@ export default function Home() {
   }
 
   /** Handles submitting a guess, evaluates it, updates past guesses, increments guess counter */
-  const formAction = async (formData: FormData) => {
-    let pickerInput = formData.get("picker-input")
-    let colourEval = evaluateColours();
+  const formAction = async () => {
+    const colourEval = evaluateColours();
     if (!colourEval) { return; }
     setPastEvals([...pastEvals, { "r_diff": colourEval.r_diff, "g_diff": colourEval.g_diff, "b_diff": colourEval.b_diff, "r_val": colourEval.r_val, "g_val": colourEval.g_val, "b_val": colourEval.b_val }]);
     setNumGuesses(numGuesses + 1);

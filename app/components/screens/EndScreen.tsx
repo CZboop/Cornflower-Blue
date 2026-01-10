@@ -22,12 +22,12 @@ export default function WinScreen({ targetColour, targetColourRGB, gameMode, set
                 <>
                 <Confetti />
                 <h2>Correct!</h2>
-                <p>The exact colour for "{targetColour.name}" was:</p>
+                <p>The exact colour for {targetColour.name} was:</p>
                 </>
                 :
                 <>
                 <p>You ran out of guesses.</p>
-                <p>The correct colour for "{targetColour.name}" was:</p>
+                <p>The correct colour for {targetColour.name} was:</p>
                 </>
             }
             <CorrectColour targetColour={targetColour} targetColourRGB={targetColourRGB} />
