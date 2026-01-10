@@ -6,7 +6,7 @@ type Props = {
     targetColourRGB: ColourRGB
 }
 
-
+/** Disabled colour picker to display exact correct colour on end of game */
 export default function CorrectColour({ targetColour, targetColourRGB }: Readonly<Props>) {
     return (
         <div className="page-content">

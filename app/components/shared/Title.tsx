@@ -3,6 +3,7 @@ type Props = {
     setGameMode: (gameMode: string) => void
 }
 
+/** Header with title and game mode selection */
 export default function Title({ gameMode, setGameMode }: Readonly<Props>) {
     return (
         <>

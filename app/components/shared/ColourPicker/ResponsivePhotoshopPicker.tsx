@@ -71,7 +71,7 @@ function ResponsivePhotoshopPickerComponent({
     currentColor,
     header = 'Colour Picker'
 }: Props) {
-    // photoshop picker from react-color library, with tailwind mobile responsiveness
+    /**  Customised photoshop picker from react-color library, with tailwind mobile responsiveness */
     const [initialColor] = useState(currentColor ?? hex);
 
     return (

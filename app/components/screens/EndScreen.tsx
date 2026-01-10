@@ -11,6 +11,7 @@ type Props = {
     guessedCorrect: boolean
 }
 
+ /** Screen for when a correct guess is given - confetti, exact colour shown, and play again button */
 export default function WinScreen({ targetColour, targetColourRGB, gameMode, setGameMode, resetGame, guessedCorrect }: Readonly<Props>) {
 
     return (

@@ -6,13 +6,16 @@ import GameScreen from './components/screens/GameScreen';
 import EndScreen from './components/screens/EndScreen';
 
 
-// pure functions that don't need state or reloading
+// Functions
+
+/** Splits camel case into words (for colour names) */
 function splitCamelCase(text: string): string {
   let splitWords: string[] = text.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
   return splitWords.join(" ")
 }
 
-function hexToRgb(hex: string) {
+/** Converts a hex colour string to RGB values */
+function hexToRgb(hex: string): ColourRGB {
   // slice if alpha, will have two extra digits
   hex = hex.slice(0, 7);
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -26,7 +29,7 @@ function hexToRgb(hex: string) {
   };
 }
 
-// main page component
+// Main page component
 export default function Home() {
   const bounds = { "green": 25, "orange": 75 };
 
@@ -39,12 +42,13 @@ export default function Home() {
   const [showInfo, setShowInfo] = useState(false);
   const [gameMode, setGameMode] = useState<string | null>(null);
 
-
+  /** On-load useeffect w no dependency */
   useEffect(() => {
     const savedMode = localStorage.getItem('gameMode') || 'daily';
     setGameMode(savedMode);
   }, []);
 
+  /** Game mode switching handler - mainly to store daily mode state */
   useEffect(() => {
     if (gameMode === null) return;
     const randomColour = getColour(colourMap, "daily");
@@ -86,8 +90,8 @@ export default function Home() {
     }
   }, [gameMode])
 
+  /** Store date in localstorage when game complete, for daily play */
   function endGame() {
-    // when game complete, store date in localstorage, for handling daily play
     // update dailystate
     const today = new Date().toISOString().split('T')[0];
     localStorage.setItem('dailyGameState', JSON.stringify({
@@ -98,6 +102,7 @@ export default function Home() {
     }));
   }
 
+  /** Clears game state, selects new colour if in random mode */
   function resetGame() {
     setPastEvals([]);
     setNumGuesses(0);
@@ -112,6 +117,7 @@ export default function Home() {
     // otherwise don't reset
   }
 
+  /** Sets target colour, using date hash if daily, otherwise random */
   function getColour(colourMap: Record<string, string>, mode: string) {
     if (mode === "daily") {
       const today = new Date().toISOString().split('T')[0] // format = "2026-01-03"
@@ -139,6 +145,7 @@ export default function Home() {
     }
   }
 
+  /** Gets difference in target vs selected colour across each R, G, B */
   function evaluateColours() {
     // early return if null nothing to evaluate
     if (!targetColourRGB) return;
@@ -167,6 +174,7 @@ export default function Home() {
     }
   }
 
+  /** Uses colour difference value to return a class name for styling */
   function getColourDiffClass(guessDiff: number) {
     let className;
     if (guessDiff <= bounds.green) {
@@ -181,24 +189,27 @@ export default function Home() {
     return className;
   }
 
+  /** Handles submitting a guess, evaluates it, updates past guesses, increments guess counter */
   const formAction = async (formData: FormData) => {
     let pickerInput = formData.get("picker-input")
-    console.log(pickerInput);
     let colourEval = evaluateColours();
     if (!colourEval) { return; }
     setPastEvals([...pastEvals, { "r_diff": colourEval.r_diff, "g_diff": colourEval.g_diff, "b_diff": colourEval.b_diff, "r_val": colourEval.r_val, "g_val": colourEval.g_val, "b_val": colourEval.b_val }]);
     setNumGuesses(numGuesses + 1);
   }
 
-  // early returns to handle screen rendering w multiple conditions
+  // Early returns to handle screen rendering w multiple conditions:
+
+  // Missing state, return loading
   if (gameMode === null || targetColour === null || targetColourRGB === null) {
     return <div>Loading...</div>;
   }
+  // End game if turn limit reached or guessed correct
   if (guessedCorrect || numGuesses >= 5) {
     endGame();
     return <EndScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} resetGame={resetGame} guessedCorrect={guessedCorrect} />
   }
-
+  // Play if still turns left
   if (numGuesses < 5) {
     return <GameScreen numGuesses={numGuesses} targetColour={targetColour} formAction={formAction} colour={colour} setColour={setColour} pastEvals={pastEvals} getColourDiffClass={getColourDiffClass} showInfo={showInfo} setShowInfo={setShowInfo} gameMode={gameMode} setGameMode={setGameMode} bounds={bounds} />
   }

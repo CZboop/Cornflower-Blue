@@ -17,6 +17,7 @@ type Props = {
     bounds: Bounds
 }
 
+ /** Main game screen with colour picker and guess feedback */
 export default function GameScreen({ numGuesses, targetColour, formAction, colour, setColour, pastEvals, getColourDiffClass, showInfo, setShowInfo, gameMode, setGameMode, bounds }: Readonly<Props>) {
 
     return (
