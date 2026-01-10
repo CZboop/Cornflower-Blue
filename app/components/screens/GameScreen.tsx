@@ -4,15 +4,15 @@ import { PhotoshopPicker, ColorResult } from 'react-color';
 type Props = {
     numGuesses: number
     targetColour: Colour
-    formAction: () => void
+    formAction: (formData: FormData) => Promise<void>
     colour: string
-    setColour: (arg0: string) => void
+    setColour: (colour: string) => void
     pastEvals: Array<Evals>
-    getColourDiffClass: (arg0: number) => string
+    getColourDiffClass: (colourDiff: number) => string
     showInfo: boolean
-    setShowInfo: (arg0: boolean) => void
+    setShowInfo: (showInfo: boolean) => void
     gameMode: string
-    setGameMode: () => void
+    setGameMode: (gameMode: string) => void
     bounds: Bounds
 }
 

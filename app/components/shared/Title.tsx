@@ -1,6 +1,6 @@
 type Props = {
     gameMode: string
-    setGameMode: (arg0: string) => void
+    setGameMode: (gameMode: string) => void
 }
 
 export default function Title({ gameMode, setGameMode }: Readonly<Props>) {
