@@ -58,6 +58,15 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                                 <div>B: <span className={`colour-label ${getColourDiffClass(guess.b_diff)} w-[7ch] text-center`}>{guess.b_val}</span></div>
                             </div>
                         ))}
+                        {new Array(5 - pastEvals.length).fill(null).map((_, index) => (
+                            <div key={`guess-${index}`} className="guess-row">
+                                <div className="greyed-div">R: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
+                                <div className="greyed-div">G: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
+                                <div className="greyed-div">B: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
+                            </div>
+                        ))
+
+                        }
                     </>
                     :
                     (<></>)
