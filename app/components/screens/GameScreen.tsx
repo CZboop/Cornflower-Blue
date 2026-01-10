@@ -1,5 +1,6 @@
 import Title from "../shared/Title";
 import ResponsivePhotoshopPicker from "../shared/ColourPicker/ResponsivePhotoshopPicker";
+import { ColorResult } from "react-color";
 
 type Props = {
     numGuesses: number
