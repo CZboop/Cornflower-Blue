@@ -31,9 +31,9 @@ export default function WinScreen({ targetColour, targetColourRGB, gameMode, set
             }
             <CorrectColour targetColour={targetColour} targetColourRGB={targetColourRGB} />
             { gameMode === "random" ? (
-                <button onClick={resetGame}>Play Again</button>
+                <button className="play-again" onClick={resetGame}>Play Again</button>
             ) : (
-                <button onClick={() => { setGameMode("random"); resetGame(); }}>
+                <button className="play-again" onClick={() => { setGameMode("random"); resetGame(); }}>
                     Play Random Mode
                 </button>
             )}

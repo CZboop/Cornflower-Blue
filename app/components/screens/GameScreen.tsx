@@ -36,8 +36,7 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                 <input type="submit"></input>
                 <h3>You have <b>{5 - numGuesses}</b> guesses left - {new Array(5).fill(null).map((_, i) => (<span key={`life-${i}`}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
 
-                {pastEvals.length > 0 ?
-                    <>
+
                         <h3 className="past-guesses">Past Guesses: <button type="button" className="info-icon" onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
                         </h3>
 
@@ -68,10 +67,7 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                         ))
 
                         }
-                    </>
-                    :
-                    (<></>)
-                }
+                    
             </form>
         </div>
     )
