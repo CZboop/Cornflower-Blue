@@ -46,13 +46,15 @@ h1 {
 }
 
 input[type=submit] {
-  background: var(--ps-light);
+  background: #DCDCDC;
   color: var(--ps-border);
   border: 1px solid var(--ps-border);
   padding: 0.5em 1.5em;
   border-radius: 5px;
   cursor: pointer;
   font-weight: 500;
+  margin-bottom: 1em;
+  margin-top: 0.5em;
 }
 
 input[type=color] {
@@ -159,4 +161,111 @@ input[type=color] {
   color: white;
   font: 100;
   margin: 0;
+}
+
+.title-selection {
+  position: relative;
+  display: inline-block;
+  padding: 8px 16px;
+  padding-bottom: 0;
+  margin-bottom: 2em;
+}
+
+.title-selection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* top */
+    linear-gradient(90deg, #fff 50%, transparent 50%),
+    /* bottom */
+    linear-gradient(90deg, #fff 50%, transparent 50%),
+    /* left */
+    linear-gradient(180deg, #fff 50%, transparent 50%),
+    /* right */
+    linear-gradient(180deg, #fff 50%, transparent 50%);
+  background-size:
+    8px 1px,
+    8px 1px,
+    1px 8px,
+    1px 8px;
+  background-position:
+    0 0,
+    0 100%,
+    0 0,
+    100% 0;
+  background-repeat:
+    repeat-x,
+    repeat-x,
+    repeat-y,
+    repeat-y;
+  animation: march 0.3s linear infinite;
+  pointer-events: none;
+}
+
+/* marching ants animation - moving dashed lines */
+@keyframes march {
+  to {
+    background-position:
+      8px 0,
+      -8px 100%,
+      0 8px,
+      100% -8px;
+  }
+}
+
+/* selection handles (squares) */
+.title-selection .handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border: 1px solid #000;
+  font: 100;
+}
+
+/* corner positions */
+.title-selection .handle.top-left {
+  top: -4px;
+  left: -4px;
+}
+
+.title-selection .handle.top-right {
+  top: -4px;
+  right: -4px;
+}
+
+.title-selection .handle.bottom-left {
+  bottom: -4px;
+  left: -4px;
+}
+
+.title-selection .handle.bottom-right {
+  bottom: -4px;
+  right: -4px;
+}
+
+/* middle positions */
+.title-selection .handle.top-middle {
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.title-selection .handle.bottom-middle {
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.title-selection .handle.middle-left {
+  top: 50%;
+  left: -4px;
+  transform: translateY(-50%);
+}
+
+.title-selection .handle.middle-right {
+  top: 50%;
+  right: -4px;
+  transform: translateY(-50%);
 }

@@ -6,7 +6,17 @@ type Props = {
 export default function Title({ gameMode, setGameMode }: Readonly<Props>) {
     return (
         <>
-            <h1>Cornflower Blue - Colour Guessing Game 🎨</h1>
+            <div className="title-selection">
+                <h1>Cornflower Blue - Colour Guessing Game 🎨</h1>
+                <span className="handle top-left"></span>
+                <span className="handle top-right"></span>
+                <span className="handle bottom-left"></span>
+                <span className="handle bottom-right"></span>
+                <span className="handle top-middle"></span>
+                <span className="handle bottom-middle"></span>
+                <span className="handle middle-left"></span>
+                <span className="handle middle-right"></span>
+            </div>
             <div className="mode-container flex items-center gap-2"><h3>Game Mode:</h3>
                 <div className="relative flex bg-gray-200 rounded-full p-0.5 text-sm" key="mode-toggle" id="mode-toggle">
                     <button
