@@ -53,9 +53,9 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                         )}
                         {pastEvals.map((guess: Evals, index) => (
                             <div key={`guess-${index}`} className="guess-row">
-                                <div>R: <span className={`colour-label ${getColourDiffClass(guess.r_diff)}`}>{guess.r_val}</span></div>
-                                <div>G: <span className={`colour-label ${getColourDiffClass(guess.g_diff)}`}>{guess.g_val}</span></div>
-                                <div>B: <span className={`colour-label ${getColourDiffClass(guess.b_diff)}`}>{guess.b_val}</span></div>
+                                <div>R: <span className={`colour-label ${getColourDiffClass(guess.r_diff)} w-[7ch] text-center`}>{guess.r_val}</span></div>
+                                <div>G: <span className={`colour-label ${getColourDiffClass(guess.g_diff)} w-[7ch] text-center`}>{guess.g_val}</span></div>
+                                <div>B: <span className={`colour-label ${getColourDiffClass(guess.b_diff)} w-[7ch] text-center`}>{guess.b_val}</span></div>
                             </div>
                         ))}
                     </>
