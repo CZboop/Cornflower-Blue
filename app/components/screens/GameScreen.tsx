@@ -37,7 +37,7 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
 
                 {pastEvals.length > 0 ?
                     <>
-                        <h3 className="past-guesses">Past Guesses: <button className="info-icon" onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
+                        <h3 className="past-guesses">Past Guesses: <button type="button" className="info-icon" onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
                         </h3>
 
                         {showInfo && (
