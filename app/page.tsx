@@ -68,6 +68,10 @@ export default function Home() {
           return; // don't reset state
         }
       }
+      // vo saved state for today - reset for fresh daily game
+      setPastEvals([]);
+      setNumGuesses(0);
+      setGuessedCorrect(false);
     }
     else {
       // switching to random/from daily, save daily, start random fresh
@@ -93,14 +97,16 @@ export default function Home() {
 
   /** Store date in localstorage when game complete, for daily play */
   function endGame() {
-    // update dailystate
-    const today = new Date().toISOString().split('T')[0];
-    localStorage.setItem('dailyGameState', JSON.stringify({
-      date: today,
-      numGuesses,
-      pastEvals,
-      guessedCorrect
-    }));
+    if (gameMode === "daily") {
+      // update dailystate
+      const today = new Date().toISOString().split('T')[0];
+      localStorage.setItem('dailyGameState', JSON.stringify({
+        date: today,
+        numGuesses,
+        pastEvals,
+        guessedCorrect
+      }));
+    }
   }
 
   /** Clears game state, selects new colour if in random mode */
@@ -202,6 +208,14 @@ export default function Home() {
     setNumGuesses(numGuesses + 1);
   }
 
+  // Save daily game state when game ends
+  useEffect(() => {
+    if (gameMode === "daily" && (guessedCorrect || numGuesses >= 5)) {
+      endGame();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only save when game ends
+  }, [guessedCorrect, numGuesses >= 5]);
+
   // Early returns to handle screen rendering w multiple conditions:
 
   // Missing state, return loading
@@ -210,7 +224,6 @@ export default function Home() {
   }
   // End game if turn limit reached or guessed correct
   if (guessedCorrect || numGuesses >= 5) {
-    endGame();
     return <EndScreen targetColour={targetColour} targetColourRGB={targetColourRGB} gameMode={gameMode} setGameMode={setGameMode} resetGame={resetGame} guessedCorrect={guessedCorrect} />
   }
   // Play if still turns left
