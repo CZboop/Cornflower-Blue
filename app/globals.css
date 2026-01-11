@@ -3,11 +3,6 @@
 :root {
   --background: #231835;
   --foreground: blue;
-  --ps-dark: #535353;
-  --ps-darker: #454545;
-  --ps-darkest: #1e1e1e;
-  --ps-light: #b8b8b8;
-  --ps-accent: #5b9bd5;
   --ps-border: #3c3c3c;
 }
 
