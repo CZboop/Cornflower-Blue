@@ -1,5 +1,6 @@
 'use client';
- /* eslint-disable @typescript-eslint/no-explicit-any */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { CustomPicker, InjectedColorProps } from 'react-color';
 // eslint-disable-next-line @typescript-eslint/no-require-imports

@@ -1,3 +1,5 @@
+"use client";
+
 import ResponsivePhotoshopPicker from './ColourPicker/ResponsivePhotoshopPicker';
 
 type Props = {

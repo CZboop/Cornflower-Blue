@@ -68,7 +68,7 @@ export default function Home() {
           return; // don't reset state
         }
       }
-      // vo saved state for today - reset for fresh daily game
+      // no saved state for today - reset for fresh daily game
       setPastEvals([]);
       setNumGuesses(0);
       setGuessedCorrect(false);
@@ -214,7 +214,7 @@ export default function Home() {
       endGame();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only save when game ends
-  }, [guessedCorrect, numGuesses >= 5]);
+  }, [guessedCorrect, numGuesses]);
 
   // Early returns to handle screen rendering w multiple conditions:
 
