@@ -32,44 +32,45 @@ export default function GameScreen({ numGuesses, targetColour, formAction, colou
                     <></>
             }
 
-            <form action={formAction}>
-                <div className="colour-picker">
+            <form action={formAction} className="md:flex">
+                <div className="colour-picker md:pr-8">
                     <ResponsivePhotoshopPicker key={numGuesses} color={colour} onChange={(c: ColorResult) => setColour(c.hex)} />
+                    <input type="submit"></input>
                 </div>
-                <input type="submit"></input>
-                <h3>You have <b>{5 - numGuesses}</b> guesses left - {new Array(5).fill(null).map((_, i) => (<span key={`life-${i}`}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
 
+                <div className="past-guess-container md:pt-4">
+                    <h3>You have <b>{5 - numGuesses}</b> guesses left - {new Array(5).fill(null).map((_, i) => (<span key={`life-${i}`}>{i < 5 - numGuesses ? '❤️' : '🩶'}</span>))}</h3>
+                    <h3 className="past-guesses">Past Guesses: <button type="button" className="info-icon" onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
+                    </h3>
 
-                <h3 className="past-guesses">Past Guesses: <button type="button" className="info-icon" onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
-                </h3>
+                    {showInfo && (
+                        <div className="info-box">
+                            <p>Each number shows the R, G, or B value of the guess. The colours show roughly how far the guess was from being correct across each colour channel.</p>
+                            <ul>
+                                <li>🟢 Green: Correct, or close enough (within {bounds.green})</li>
+                                <li>🟠 Orange: Close (within {bounds.orange})</li>
+                                <li>🔴 Red: Far off ({bounds.orange}+)</li>
+                            </ul>
+                            <p>Click the top ℹ️ icon again to close these details.</p>
+                        </div>
+                    )}
+                    {pastEvals.map((guess: Evals, index) => (
+                        <div key={`guess-${index}`} className="guess-row">
+                            <div>R: <span className={`colour-label ${getColourDiffClass(guess.r_diff)} w-[7ch] text-center`}>{guess.r_val}</span></div>
+                            <div>G: <span className={`colour-label ${getColourDiffClass(guess.g_diff)} w-[7ch] text-center`}>{guess.g_val}</span></div>
+                            <div>B: <span className={`colour-label ${getColourDiffClass(guess.b_diff)} w-[7ch] text-center`}>{guess.b_val}</span></div>
+                        </div>
+                    ))}
+                    {new Array(5 - pastEvals.length).fill(null).map((_, index) => (
+                        <div key={`guess-${index}`} className="guess-row">
+                            <div className="greyed-div">R: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
+                            <div className="greyed-div">G: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
+                            <div className="greyed-div">B: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
+                        </div>
+                    ))
 
-                {showInfo && (
-                    <div className="info-box">
-                        <p>Each number shows the R, G, or B value of the guess. The colours show roughly how far the guess was from being correct across each colour channel.</p>
-                        <ul>
-                            <li>🟢 Green: Correct, or close enough (within {bounds.green})</li>
-                            <li>🟠 Orange: Close (within {bounds.orange})</li>
-                            <li>🔴 Red: Far off ({bounds.orange}+)</li>
-                        </ul>
-                        <p>Click the top ℹ️ icon again to close these details.</p>
-                    </div>
-                )}
-                {pastEvals.map((guess: Evals, index) => (
-                    <div key={`guess-${index}`} className="guess-row">
-                        <div>R: <span className={`colour-label ${getColourDiffClass(guess.r_diff)} w-[7ch] text-center`}>{guess.r_val}</span></div>
-                        <div>G: <span className={`colour-label ${getColourDiffClass(guess.g_diff)} w-[7ch] text-center`}>{guess.g_val}</span></div>
-                        <div>B: <span className={`colour-label ${getColourDiffClass(guess.b_diff)} w-[7ch] text-center`}>{guess.b_val}</span></div>
-                    </div>
-                ))}
-                {new Array(5 - pastEvals.length).fill(null).map((_, index) => (
-                    <div key={`guess-${index}`} className="guess-row">
-                        <div className="greyed-div">R: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
-                        <div className="greyed-div">G: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
-                        <div className="greyed-div">B: <span className="colour-label greyed-guess w-[7ch] text-center">___</span></div>
-                    </div>
-                ))
-
-                }
+                    }
+                </div>
 
             </form>
         </div>
