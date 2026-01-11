@@ -53,20 +53,29 @@ export default function Home() {
     if (gameMode === null) return;
     const randomColour = getColour(colourMap, "daily");
     setTargetColour(randomColour);
+    setColour("#ffffff");
     // store game mode in local storage so can refresh e.g. if playing random and want different colours
     localStorage.setItem('gameMode', gameMode);
     if (gameMode === "daily") {
       // switching to daily, restore saved state if from today
       const saved = localStorage.getItem('dailyGameState');
       if (saved) {
-        const { date, numGuesses: savedGuesses, pastEvals: savedEvals, guessedCorrect: savedCorrect } = JSON.parse(saved);
-        const today = new Date().toISOString().split('T')[0];
-        if (date === today) {
-          setNumGuesses(savedGuesses);
-          setPastEvals(savedEvals);
-          setGuessedCorrect(savedCorrect);
-          return; // don't reset state
+        // check details in parsed json, error and clear if invalid
+        try {
+          const data = JSON.parse(saved);
+          if (!data.date || typeof data.numGuesses !== 'number') throw new Error("Error reading saved game state");
+          const { date, numGuesses: savedGuesses, pastEvals: savedEvals, guessedCorrect: savedCorrect } = data;
+          const today = new Date().toISOString().split('T')[0];
+          if (date === today) {
+            setNumGuesses(savedGuesses);
+            setPastEvals(savedEvals);
+            setGuessedCorrect(savedCorrect);
+            return; // don't reset state
+          }
+        } catch {
+          localStorage.removeItem('dailyGameState'); // remove invalid saved state
         }
+
       }
       // no saved state for today - reset for fresh daily game
       setPastEvals([]);
