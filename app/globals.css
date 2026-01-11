@@ -72,6 +72,7 @@ input[type=color] {
   text-underline-offset: 0.25em;
   padding-bottom: 0.5em;
   margin-top: 1em;
+  margin-bottom: 0.5em;
 }
 
 .colour-picker {
@@ -139,6 +140,10 @@ input[type=color] {
 
 #mode-toggle {
   margin-left: 0.5em;
+  background: #DCDCDC;
+  color: var(--ps-border);
+  border: 1px solid var(--ps-border);
+  font-weight: 500;
 }
 
 .mode-container {
