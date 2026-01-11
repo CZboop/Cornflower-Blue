@@ -7,7 +7,7 @@ Colour picking game where you must select a standard CSS colour, based on its na
 Play daily or random mode - you have 5 guesses to get close enough to the correct colour!
 
 ## Play Online!
-Play online here: [cornflower-blue.vercel.app](cornflower-blue.vercel.app)
+Play online here: [cornflower-blue.vercel.app](https://cornflower-blue.vercel.app/)
 
 ## Running the development server
 To run the development server:
