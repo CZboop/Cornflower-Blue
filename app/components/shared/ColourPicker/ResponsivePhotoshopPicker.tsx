@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { CustomPicker, InjectedColorProps } from 'react-color';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { Saturation, Hue, EditableInput } = require('react-color/lib/components/common');
+const { Saturation, Hue } = require('react-color/lib/components/common');
 
 // pointer components
 const SaturationPointer = () => (
@@ -55,7 +55,7 @@ type Props = InjectedColorProps & {
 
 const inputStyles = {
     input: {
-        width: '40px',
+        width: '52px',
         fontSize: '12px',
         padding: '4px',
         border: '1px solid #B3B3B3',
@@ -100,7 +100,7 @@ function ResponsivePhotoshopPickerComponent({
                 <div className="flex flex-col md:flex-row gap-3">
                     {/* saturation square */}
                     <div
-                        className="relative w-full aspect-square max-w-[200px] md:max-w-[256px] md:w-[256px] md:h-[256px] border-2 border-[#B3B3B3] border-b-[#F0F0F0] overflow-hidden"
+                        className="relative w-full aspect-square max-w-[200px] md:max-w-[256px] md:w-[256px] md:h-64 border-2 border-[#B3B3B3] border-b-[#F0F0F0] overflow-hidden"
                     >
                         <Saturation
                             hsl={hsl}
@@ -121,7 +121,7 @@ function ResponsivePhotoshopPickerComponent({
                     </div>
 
                     {/* hue slider - vertical on desktop */}
-                    <div className="hidden md:block relative w-[19px] h-[256px] border-2 border-[#B3B3B3] border-b-[#F0F0F0]">
+                    <div className="hidden md:block relative w-[19px] h-64 border-2 border-[#B3B3B3] border-b-[#F0F0F0]">
                         <Hue
                             hsl={hsl}
                             direction="vertical"
@@ -158,29 +158,35 @@ function ResponsivePhotoshopPickerComponent({
                             <div className="flex flex-wrap gap-2 mt-2">
                                 <div className="flex items-center gap-1">
                                     <span style={inputStyles.label}>R</span>
-                                    <EditableInput
-                                        style={{ input: inputStyles.input }}
-                                        label=""
-                                        value={rgb?.r}
-                                        onChange={(data: { r?: number }) => data.r !== undefined && onChange?.({ r: data.r, g: rgb?.g ?? 0, b: rgb?.b ?? 0 })}
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="255"
+                                        style={inputStyles.input}
+                                        value={rgb?.r ?? 0}
+                                        onChange={(e) => onChange?.({ r: Number.parseInt(e.target.value) || 0, g: rgb?.g ?? 0, b: rgb?.b ?? 0 })}
                                     />
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <span style={inputStyles.label}>G</span>
-                                    <EditableInput
-                                        style={{ input: inputStyles.input }}
-                                        label=""
-                                        value={rgb?.g}
-                                        onChange={(data: { g?: number }) => data.g !== undefined && onChange?.({ r: rgb?.r ?? 0, g: data.g, b: rgb?.b ?? 0 })}
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="255"
+                                        style={inputStyles.input}
+                                        value={rgb?.g ?? 0}
+                                        onChange={(e) => onChange?.({ r: rgb?.r ?? 0, g: Number.parseInt(e.target.value) || 0, b: rgb?.b ?? 0 })}
                                     />
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <span style={inputStyles.label}>B</span>
-                                    <EditableInput
-                                        style={{ input: inputStyles.input }}
-                                        label=""
-                                        value={rgb?.b}
-                                        onChange={(data: { b?: number }) => data.b !== undefined && onChange?.({ r: rgb?.r ?? 0, g: rgb?.g ?? 0, b: data.b })}
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="255"
+                                        style={inputStyles.input}
+                                        value={rgb?.b ?? 0}
+                                        onChange={(e) => onChange?.({ r: rgb?.r ?? 0, g: rgb?.g ?? 0, b: Number.parseInt(e.target.value) || 0 })}
                                     />
                                 </div>
                             </div>
@@ -190,38 +196,45 @@ function ResponsivePhotoshopPickerComponent({
                         <div className="hidden md:block space-y-2">
                             <div className="flex items-center gap-1">
                                 <span style={inputStyles.label}>R</span>
-                                <EditableInput
-                                    style={{ input: inputStyles.input }}
-                                    label=""
-                                    value={rgb?.r}
-                                    onChange={(data: { r?: number }) => data.r !== undefined && onChange?.({ r: data.r, g: rgb?.g ?? 0, b: rgb?.b ?? 0 })}
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="255"
+                                    style={inputStyles.input}
+                                    value={rgb?.r ?? 0}
+                                    onChange={(e) => onChange?.({ r: Number.parseInt(e.target.value) || 0, g: rgb?.g ?? 0, b: rgb?.b ?? 0 })}
                                 />
                             </div>
                             <div className="flex items-center gap-1">
                                 <span style={inputStyles.label}>G</span>
-                                <EditableInput
-                                    style={{ input: inputStyles.input }}
-                                    label=""
-                                    value={rgb?.g}
-                                    onChange={(data: { g?: number }) => data.g !== undefined && onChange?.({ r: rgb?.r ?? 0, g: data.g, b: rgb?.b ?? 0 })}
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="255"
+                                    style={inputStyles.input}
+                                    value={rgb?.g ?? 0}
+                                    onChange={(e) => onChange?.({ r: rgb?.r ?? 0, g: Number.parseInt(e.target.value) || 0, b: rgb?.b ?? 0 })}
                                 />
                             </div>
                             <div className="flex items-center gap-1">
                                 <span style={inputStyles.label}>B</span>
-                                <EditableInput
-                                    style={{ input: inputStyles.input }}
-                                    label=""
-                                    value={rgb?.b}
-                                    onChange={(data: { b?: number }) => data.b !== undefined && onChange?.({ r: rgb?.r ?? 0, g: rgb?.g ?? 0, b: data.b })}
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="255"
+                                    style={inputStyles.input}
+                                    value={rgb?.b ?? 0}
+                                    onChange={(e) => onChange?.({ r: rgb?.r ?? 0, g: rgb?.g ?? 0, b: Number.parseInt(e.target.value) || 0 })}
                                 />
                             </div>
                             <div className="flex items-center gap-1 mt-3">
                                 <span style={inputStyles.label}>#</span>
-                                <EditableInput
-                                    style={{ input: { ...inputStyles.input, width: '60px' } }}
-                                    label=""
-                                    value={hex?.replace('#', '')}
-                                    onChange={(data: { hex?: string }) => data.hex !== undefined && onChange?.(`#${data.hex}`)}
+                                <input
+                                    type="text"
+                                    maxLength={6}
+                                    style={{ ...inputStyles.input, width: '60px' }}
+                                    value={hex?.replace('#', '') ?? ''}
+                                    onChange={(e) => onChange?.(`#${e.target.value}`)}
                                 />
                             </div>
                         </div>
